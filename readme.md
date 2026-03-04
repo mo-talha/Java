@@ -54,43 +54,49 @@ Once the grouping is done it runs the groups one after the other, this is why th
 
 JIT (Just in Time Compiler) there is also jit within the JVM so this compiler is there to compile if there is any repetitive code, it compiles the repetitive code and interprets it first hand so that the repetitive code is not compiled and interpreted over and over again.
 
-Understanding the class objects and methods in java
+### Understanding the class objects and methods in java
 
-Test.java 
+Test.java
+``` 
 Class Test{
 	public static void main(String [] args){
 		System.out.println(“Hello World!”);
+    }
 }
-}
+```
 
 Everything in java is written inside a class and we create objects.
 Ex: Car is a class, its objects are BMW, Toyota, Suzuki etc
 Food is a class, its objects are Indian food, asian food, arabian food etc.
 
-The main method in java
-The orange line is called the signature of the method.
+### The main method in java
+```
 Class Test{
-public static void main(String [] args){
+    // The below line public static void main is called signature of the method.
+    public static void main(String [] args){
 		System.out.println(“Hello World!”);
+    }
 }
-}
+```
 The main method is the entry point of the program in java, it has a specific signature:
-public: Access modifier indicating the method can be accessed from outside the class. This also indicates that JVM can access this method. JVM cannot access a private method.
-static: Indicates the method belongs to the class rather than an Instance of the class. A static method can be used without creating the instance or object of the class. It can be accessed using Test.main() by the jvm and by the user.
-void: Indicates the method does not return anything.
-main: Name of the method
-String [] args: The method accepts an array of strings as parameters. This is where command line arguments can be passed to the program.
+- `public`: Access modifier indicating the method can be accessed from outside the class. This also indicates that JVM can access this method. JVM cannot access a private method.
 
-System.out.println(“Hello World!”);
+- `static`: Indicates the method belongs to the class rather than an Instance of the class. A static method can be used without creating the instance or object of the class. It can be accessed using Test.main() by the jvm and by the user.
+
+- `void`: Indicates the method does not return anything.
+- `main`: Name of the method
+- `String [] args`: The method accepts an array of strings as parameters. This is where command line arguments can be passed to the program.
+
+`System.out.println(“Hello World!”);`
 The above line is responsible for printing the message Hello World! on to the console.
 We know that in java everything is inside a class.
 
-System: A class in java.lang package that provides access to the system, including the console.
+`System`: A class in java.lang package that provides access to the system, including the console.
 
-out: An instance of the PrintStream class within the System class, representing the standard output stream.
+`out`: An instance of the PrintStream class within the System class, representing the standard output stream.
 
-println: A method used to print a line of text on the console.
+`println`: A method used to print a line of text on the console.
 
-“Hello World!”: String to  be printed.
+`“Hello World!”`: String to  be printed.
 
-“;” semicolon in java is a crucial element to indicate the end of a statement. It helps the compiler to understand the structure of the code by marking boundaries between different statements.
+`;` semicolon in java is a crucial element to indicate the end of a statement. It helps the compiler to understand the structure of the code by marking boundaries between different statements.
