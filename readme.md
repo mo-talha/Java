@@ -1,16 +1,16 @@
-## Java Notes
+# Java Notes
 
-### JDK (Java Development Kit)
+## JDK (Java Development Kit)
 Consists of tools and libraries which will help us write java code, it also consists of JRE (Java Runtime Environment), also the debugger, javaC compiler etc.
 
-### JRE (Java Runtime Environment)
+## JRE (Java Runtime Environment)
 Provides an environment to run the java program, JRE consists of JVM where the code finally runs, The JVM starts interpreting the bytecode, it detects the frequently executed code (hot code), JIT (Just in time compiler) compiles this byte code into machine code, next time JVM runs the machine code of the frequent code.
 
 The JRE has the compiler which compiles the code to bytecode.
 The JRE has the JVM/interpreter which compiles the bytecode to machine code.
 The JIT (Just in time interpreter) monitors the bytecode and when it detects a code running repeatedly, JIT compiles the entire method to native machine code bypassing interpretation. This way it avoids reinterpreting the repetitive code again and again giving a performance boost.
 
-### The flow of a Java program:
+## The flow of a Java program:
 .java file is written.
 The .java file is compiled to bytecode by the compiler.
 JVM starts.
@@ -44,17 +44,17 @@ Also one might think when providing a file to javac we specify Test.java, but wh
 
 This is because by default the JVM accepts only the compiled code, so when we specify java Test.class it will throw an error. So there is no need to mention the extension.
 
-### Summary
+## Summary
 So, .java file gets compiled by javac compiler, then the byte code is converted to machine code and interpreted line by line by the jvm.
 
-### What is line by line ?
+## What is line by line ?
 So the interpreter parses through the machine code first and reads it, and again it parses the second time where it group’s the instructions to run in an orderly manner.
 
 Once the grouping is done it runs the groups one after the other, this is why the interpreter is slower than the compiler.
 
 JIT (Just in Time Compiler) there is also jit within the JVM so this compiler is there to compile if there is any repetitive code, it compiles the repetitive code and interprets it first hand so that the repetitive code is not compiled and interpreted over and over again.
 
-### Understanding the class objects and methods in java
+## Understanding the class objects and methods in java
 
 Test.java
 ``` 
@@ -69,7 +69,7 @@ Everything in java is written inside a class and we create objects.
 Ex: Car is a class, its objects are BMW, Toyota, Suzuki etc
 Food is a class, its objects are Indian food, asian food, arabian food etc.
 
-### The main method in java
+## The main method in java
 ```
 Class Test{
     // The below line public static void main is called signature of the method.
@@ -101,10 +101,10 @@ We know that in java everything is inside a class.
 
 `;` semicolon in java is a crucial element to indicate the end of a statement. It helps the compiler to understand the structure of the code by marking boundaries between different statements.
 
-## Lecture - 5 Engineering Digest
-### Primitive Data Types - The most basic type of data
+# Lecture - 5 Engineering Digest
+## Primitive Data Types - The most basic type of data
 
-### There are 4 Primitive Data Types:
+## There are 4 Primitive Data Types:
 Whole numbers - numbers without decimal points, In java we store the integral numbers (-9, 5000 etc) using the following data types:
 - byte
 - short
@@ -127,13 +127,13 @@ If we do,
 Also incase of long numbers, we have to mention l, ex: `long number = 4654l;`
 This is because if the number falls in the integer range then the compiler will not throw an error, but once the long number crosses the integer range then we have to attach l to the number.
 
-### Decimal numbers - similarly we store decimal numbers using the following data types:
+## Decimal numbers - similarly we store decimal numbers using the following data types:
 1. float
 When using float we need to use f with the number ex: `float no = 4.66f;` because the compiler will take the number as double if not mentioned with f.
 
 2. double 
 
-### Characters 
+## Characters 
 ### char
 It stores a single letter of any language, single special characters like @,! etc and can store a single value like 4, 2, 1 etc and have to enclose the character in single quotes ex: ‘@’, ‘#’, ‘1’, ‘a’.
 Every character has a number mapped to it. So the char ‘@’ gets converted to its numerical value.
@@ -159,7 +159,7 @@ Lets say we write a software where we mention that on pressing esc the game shou
 
 We can use ASCII value for esc and then let the computer know that when this value is passed you have to stop.
 
-### Boolean
+## Boolean
 Boolean has two types true and false.
 Ex: 
 ```
@@ -170,10 +170,10 @@ We might think false is neither a string nor a character nor an integer, then wh
 ex: `boolean false = false;` → This is not possible.
 Similarly `int long = 5;` —> This is not possible as long is a reserved keyword.
 
-### Variables 
+## Variables 
 variables store data, the types of data are integral numbers, decimal numbers, character and booleans.
 
-### Byte sizes of different data types:
+## Byte sizes of different data types:
 1. byte = 1 byte = 8 bits, 1 bit means either 0 or 1.
 ex: byte num = 10;  since byte can store 8 bits, 10 in bits is 1010, which is 4 bits hence it can store the value.
 
@@ -186,15 +186,15 @@ ex: byte num = 10;  since byte can store 8 bits, 10 in bits is 1010, which is 4 
 7. double = 8 bytes = 64 bits
 8. Boolean = 1 bit = 0 or 1
 
-## Number System
-### Base-10 or decimal= 10^3 ,10^2, 10^1, 10^0 etc
+# Number System
+## Base-10 or decimal= 10^3 ,10^2, 10^1, 10^0 etc
 Decimal is used by us humans for ex:
 123 - Is read as hundred and twenty three, 
 because 1 is in 10^2 place which is 100 so 100 * 1 = 100, 
 2 is in 10^1 place which is 10 so 10*2 = 20,
 3 is in 10^0 place which is 1 so 1*3 =3 , which is now hundred twenty three
 
-### Base-2 = 2^4, 2^3, 2^2, 2^1, 2^0 etc
+## Base-2 = 2^4, 2^3, 2^2, 2^1, 2^0 etc
 In the computer world a byte or 8 bits are used as a standard to represent a decimal number, a character etc. 
 A bit i.e. 0 or 1 is not sufficient to represent characters, values etc. Hence 8 bits the standard going upto 16, 32 bits.
 
@@ -232,7 +232,7 @@ Ex: U+1F602 is the unicode for the popular smiling with tears emoji - but under 
 
 So the unicode will be sent to the OS where the OS will pick the binary value of each hex digit, like U will have its own binary value, + will have its own etc.
 
-### Variable Naming in Java
+# Variable Naming in Java
 Variable names in java are case sensitive. I.e. animal != Animal these two are seen as different variable names.
 Variable names can be letters, dollar sign($) or underscore(_)
 Must begin with a letter, dollar sign or underscore.
@@ -240,14 +240,14 @@ Cannot use java keywords as variable names. Ex: int, public, String etc.
 Keep the variable names meaningful, avoid using names like int x, String s etc
 Make use of camel case in variable names, ex: fullName, myPassword etc.
 
-### Arithmetic Operators in Java
+# Arithmetic Operators in Java
 1. Addition + - Used to add two numbers
 2. Subtraction - = subtraction of two numbers
 3. Division / - Used to divide to numbers.
 4. Multiplication * - Operator used to multiply two numbers.
 5. Modulo %  - This returns the remainder after dividing 2 numbers. Ex: 5/2 = 2, remainder = 1
 
-### Bitwise Operators
+# Bitwise Operators
 These are operators used directly on bits and these operators can be used only on integral data types like byte, short, int and long. 
 These are not used on decimal numbers because the bits of decimal numbers get divided into parts so it is difficult to manipulate them.
 
@@ -256,7 +256,7 @@ Also since they apply directly on bits they are faster than arithmetic operators
 Ex: 00000101
 1 if we want to change a particular bit like shown we make use of these operators.
 
-### Bitwise operators are as follows:
+## Bitwise operators are as follows:
 1. and &
 2. or |
 3. xor ^
@@ -321,7 +321,7 @@ int b = ~a;
 sout(b); → This will give -6
 ```
 
-# Why -6 when a was 5 ?
+### Why -6 when a was 5 ?
 Because let’s say in binary 101 = 5
 When the bits are inverted 0 1 0 now this will be -6, its just a hypothetical example bits of 5 and -6 might be different.
 
@@ -392,7 +392,7 @@ Output:
 111111111111111111111111111101 
 ```
 
-### Difference b/w println, printf and print statement
+# Difference b/w println, printf and print statement
 1. println - will print a statement in new line, has same methods as printf.
 2. printf - helps to keep the print statement and the arguments clean, formatted and easy to read and does not print in a new line.
 3. print - Has same methods as println, just that prints in the same line does not use a new line.
@@ -405,3 +405,58 @@ System.out.println(“The Sum of  ” + a +“and ” +b +”is: ”+ a+b);
 System.out.printf(“The Sum of %s and %s is: %s”,a, b, (a+b));
 The one with is more readable than string concatenation in the println statement.
 ```
+
+# Lecture - 9 Strings Engineering Digest
+If we have to store a single character then we use char and ‘ ’ single quotes to store the value. Ex: `char a = ‘s’`;
+
+If we have to store a sequence or multiple characters together we use String and “ ” double quotes. Ex: `String = “Taz”;`.
+
+String is a class and not a primitive data type.
+
+When we assign a primitive data type to a variable, ex: int num = 1;
+Then in the memory, space is allocated for num and its value also is stored in the same place.
+
+Student student = new Student();
+Whenever a new keyword is used, an object is created in heap memory.
+The student variable holds the address of the object which is created in heap memory, it does not store the object student.
+Hence Student is a reference variable.
+
+Heap means a place store object, this is created by the OS in case of Java to store new objects in memory.
+
+There are two ways to create Strings : 
+String name = “Taz”;
+This method will create a String object and store its value Taz inside String pool in Heap memory, and the name will store the string pool address of Taz.
+String name1 = new String(“Taz”);
+This method creates a new object Taz and stores it in heap memory, name1 will store the heap mem address of the object Taz.
+
+public static void main(String[] args) {
+   String a = "Taz";
+   String b = "Taz";
+
+
+   /* a == b will return true, as b will point to the location of a in String pool inside heap mem. */
+   System.out.println(a == b);
+
+
+   String c = new String("Taz");
+   String d = new String("Taz");
+
+
+   /* c == d will return false, as b will create a new object in heap and c will hold the specific address
+   and d will also create a new object in heap because of new keyword and d hold the specific address.
+   String objects created with new keyword are created in heap and not string pool. */
+   System.out.println(c == d);
+}
+
+Also == in case String compares the addresses of heap mem and string pool.
+a == b, a & b variables a and b will hold addresses of Strings in string pool and heap.
+
+When an object of a Class is created i.e. String name = “Taz”;
+The object name with its value Taz is stored in string pool inside heap memory, and the name variable stores the address of value Taz in string pool inside the heap memory. This is a reference variable as it stores the address of the value in the heap memory.
+
+Lecture - 9 Summary
+Reference Variable
+Methods of creating strings, String , new String
+String pool and heap memory
+== operator in case of String checks mem address and the String values.
+Space allocation for primitive data types and classes.
