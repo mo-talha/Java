@@ -411,24 +411,26 @@ If we have to store a single character then we use char and ‘ ’ single quote
 
 If we have to store a sequence or multiple characters together we use String and “ ” double quotes. Ex: `String = “Taz”;`.
 
-String is a class and not a primitive data type.
+***String is a class and not a primitive data type.***
 
-When we assign a primitive data type to a variable, ex: int num = 1;
+When we assign a primitive data type to a variable, ex: `int num = 1;`
 Then in the memory, space is allocated for num and its value also is stored in the same place.
 
-Student student = new Student();
-Whenever a new keyword is used, an object is created in heap memory.
+`Student student = new Student();`
+Whenever a ***new keyword is used, an object is created in heap memory***.
 The student variable holds the address of the object which is created in heap memory, it does not store the object student.
-Hence Student is a reference variable.
+Hence Student is a ***reference variable***.
 
-Heap means a place store object, this is created by the OS in case of Java to store new objects in memory.
+Heap means a place to store objects, this is created by the OS in case of Java to store new objects in memory.
 
-There are two ways to create Strings : 
-String name = “Taz”;
-This method will create a String object and store its value Taz inside String pool in Heap memory, and the name will store the string pool address of Taz.
-String name1 = new String(“Taz”);
+### There are two ways to create Strings: 
+2. `String name = “Taz”;`
+This method will create a String object and store its value Taz inside ***String pool*** in Heap memory, and the name will store the string pool address of Taz.
+
+1. `String name1 = new String(“Taz”);`
 This method creates a new object Taz and stores it in heap memory, name1 will store the heap mem address of the object Taz.
 
+```
 public static void main(String[] args) {
    String a = "Taz";
    String b = "Taz";
@@ -441,22 +443,37 @@ public static void main(String[] args) {
    String c = new String("Taz");
    String d = new String("Taz");
 
-
-   /* c == d will return false, as b will create a new object in heap and c will hold the specific address
-   and d will also create a new object in heap because of new keyword and d hold the specific address.
-   String objects created with new keyword are created in heap and not string pool. */
    System.out.println(c == d);
 }
+```
+`System.out.println(c == d);`
+c == d will return false, as b will create a new object in heap and c will hold the specific address and d will also create a new object in heap because of new keyword and d hold the specific address.
+***String objects created with new keyword are created in heap and not string pool.***
 
 Also == in case String compares the addresses of heap mem and string pool.
 a == b, a & b variables a and b will hold addresses of Strings in string pool and heap.
 
-When an object of a Class is created i.e. String name = “Taz”;
+When an object of a Class is created i.e. `String name = “Taz”;`
 The object name with its value Taz is stored in string pool inside heap memory, and the name variable stores the address of value Taz in string pool inside the heap memory. This is a reference variable as it stores the address of the value in the heap memory.
 
-Lecture - 9 Summary
-Reference Variable
-Methods of creating strings, String , new String
-String pool and heap memory
-== operator in case of String checks mem address and the String values.
-Space allocation for primitive data types and classes.
+### Lecture - 9 Summary
+1. Reference Variable
+2. Methods of creating strings, String , new String
+3. String pool and heap memory
+4. == operator in case of String checks mem address and the String values.
+5. Space allocation for primitive data types and classes.
+
+## equals() method
+== in Java checks the memory address, but equals() method checks if the value of reference variable same as another.
+
+```
+public class Main{
+	public static void main(String[] args){
+		String a = "Taz";
+		String b = new String("Taz");
+
+		System.out.println(a==b); --> This will print false, as one is stored in 
+		System.out.println(a.equals(b)) --> This will print true, as it is checking the values.
+	}
+}
+```
