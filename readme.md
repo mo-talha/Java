@@ -558,7 +558,7 @@ Arrays don't override toString(), so printing an array directly gives [I@372f7a8
 Collections like ArrayList do override toString() to show their contents, which is why System.out.println(list) actually prints useful information.
 
 In my own classes, I always override toString() to return meaningful state information. It's invaluable for debugging, logging, and stack traces."
-
+```
 ┌─────────────────┬─────────────────────────┬──────────────────┐
 │ Type            │ What prints             │ How to fix       │
 ├─────────────────┼─────────────────────────┼──────────────────┤
@@ -568,5 +568,5 @@ In my own classes, I always override toString() to return meaningful state infor
 │ ArrayList       │ [1, 2, 3] (good!)       │ Already good     │
 │ Your class      │ MyClass@3e8a99e4        │ Override it!     │
 └─────────────────┴─────────────────────────┴──────────────────┘
-
+```
 
