@@ -465,6 +465,7 @@ The object name with its value Taz is stored in string pool inside heap memory, 
 
 ## equals() method
 == in Java checks the memory address, but equals() method checks if the value of reference variable same as another.
+But == can be used to check equality of values for primitve types.
 
 ```
 public class Main{
@@ -477,3 +478,95 @@ public class Main{
 	}
 }
 ```
+
+# Memory Management in Java
+## Primitives
+### 1. Local Variables (Inside Methods)
+Local variables live inside the stack
+```
+public void calculate(){
+	int x = 10; // Stack local primitive
+	double y = 20.5; // stack local primitive
+	boolean flag = true; // stack local primitive
+}
+``` 
+When the method ends the x, y and flag vanish from stack.
+
+### 2. Instance Variables (Inside Objects)
+```
+public class Person{
+	int age = 30;
+	double salary = 50000;
+
+	public void work(){
+
+	}
+}
+Person p = new Person();
+```
+age and salary live in heap because they belong to the Person p object.
+
+### 3. Static Variables (Class variables) --> Method Area (Special heap)
+```
+public class Config{
+	static int MAX_USERS = 1000;
+	static double VERSION = 1.5;
+}
+```
+Both MAX_USERS and VERSION live in the Method Area (not stack, not regular heap)
+
+# Arrays
+Arrays are created in the heap, arrays are stored in a continous sequence inside the heap.
+
+### Creating an Array
+```
+int[] arr = new int[5];
+int[] arr1 = {1, 2, 3, 4};
+```
+
+arr is a reference variable which will be on the stack and it stores the heap address of first integer of array inside the heap.
+The actual numbers 1, 2, 3 etc will be on the heap.
+
+Also in case of an array we can get the length using, `arr.length` but in case of String we do `str.length()` because String is a class and length is a method, but in case of arr length is a property or class variable. Field access is faster compared to a method call.
+
+### Printing an Array
+int[] arr = {1, 2, 3};
+
+
+System.out.println(arr); // This will print [I@372f7a8d, [ means its an array, I means of type integer and from @ is the hashcode of the array object arr, in Java every object is denoted by a hashcode.
+
+// If the array was of type float then its hashcode would be [F@372f7a8d.
+
+int[] arr = {1, 2, 3, 4, 5};
+System.out.println(arr); 
+// Prints: [I@372f7a8d
+
+// Breakdown:
+// [  = one-dimensional array
+// I  = integer type
+// @  = separator
+// 372f7a8d = hashcode in hexadecimal
+
+System.out.println(Arrays.toString(arr));
+
+The toString() method returns a string representation of the object. The hexcode is difficult to understand when printed so we can override the toString method to print the textual representation of the object.
+
+Every object inherits the toString() method from the object class. The default implementation returns classname@hashcode in hexadecimal.
+
+Arrays don't override toString(), so printing an array directly gives [I@372f7a8d where [I means integer array. To get the actual contents, we use Arrays.toString() for 1D arrays and Arrays.deepToString() for multi-dimensional arrays.
+
+Collections like ArrayList do override toString() to show their contents, which is why System.out.println(list) actually prints useful information.
+
+In my own classes, I always override toString() to return meaningful state information. It's invaluable for debugging, logging, and stack traces."
+
+┌─────────────────┬─────────────────────────┬──────────────────┐
+│ Type            │ What prints             │ How to fix       │
+├─────────────────┼─────────────────────────┼──────────────────┤
+│ int[]           │ [I@372f7a8d             │ Arrays.toString()│
+│ String[]        │ [Ljava.lang.String;@... │ Arrays.toString()│
+│ int[][]         │ [[I@372f7a8d            │ Arrays.deepToString()│
+│ ArrayList       │ [1, 2, 3] (good!)       │ Already good     │
+│ Your class      │ MyClass@3e8a99e4        │ Override it!     │
+└─────────────────┴─────────────────────────┴──────────────────┘
+
+
