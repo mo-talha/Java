@@ -186,3 +186,222 @@ ex: byte num = 10;  since byte can store 8 bits, 10 in bits is 1010, which is 4 
 7. double = 8 bytes = 64 bits
 8. Boolean = 1 bit = 0 or 1
 
+## Number System
+### Base-10 or decimal= 10^3 ,10^2, 10^1, 10^0 etc
+Decimal is used by us humans for ex:
+123 - Is read as hundred and twenty three, 
+because 1 is in 10^2 place which is 100 so 100 * 1 = 100, 
+2 is in 10^1 place which is 10 so 10*2 = 20,
+3 is in 10^0 place which is 1 so 1*3 =3 , which is now hundred twenty three
+
+### Base-2 = 2^4, 2^3, 2^2, 2^1, 2^0 etc
+In the computer world a byte or 8 bits are used as a standard to represent a decimal number, a character etc. 
+A bit i.e. 0 or 1 is not sufficient to represent characters, values etc. Hence 8 bits the standard going upto 16, 32 bits.
+
+### Also modern languages like java use two’s complement to represent numerics in binary.
+### One’s complement:
+Invert all the binary values i.e. 0-> 1 and 1 -> 0
+Has two zeros, a positive 0 and a negative 0, this is why one’s complement is not used as two zeros make arithmetic operations complicated.
+
+### Two’s complement:
+Invert all the binary values and add 1 for -ve representation of a number.
+Has only one zero.
+Used by java and most modern languages.
+Ex: 
+In binary - 1 0 0 0 0 0 1 = 65
+In binary positive 65 = 0 1 0 0 0 0 0  1 = +65
+Invert all the bits of +65 = 1 0 1 1 1 1 1 0 (1's complement)
+Add 1 to 1s complement = 1 0 1 1 1 1 1 0 + 1 = 1 0 1 1 1 1 1 1 = -65
+
+Also in two’s complement the MSB (Most significant bit) the first bit from left side is used to represent a sign either +ve i.e. 0 or -ve i.e. 1.
+
+### CS50
+ASCII - American Standard Code for Information Interchange
+Anytime our computer shows us the capital letter A, underneath the hood it stores a pattern of 0’s and 1’s that represent the number 65.
+
+This is the system known as ASCII.
+
+Unicode - It’s the superset of ASCII where ASCII might use only 8 bits or a byte to represent characters. Unicode uses 16 or even 32 bits sometimes, hence giving it the ability to represent over 4 billion characters. 
+
+It is also used to represent letters of different languages etc.
+
+Unicode is the one behind emojis today which take more than 8 bits in binary representation.
+
+Unicode uses base-16 as there will be a lot of 0’s and 1’s in base-2. 
+Ex: U+1F602 is the unicode for the popular smiling with tears emoji - but under the hood the memory either the ram or disk will have its binary representation.
+
+So the unicode will be sent to the OS where the OS will pick the binary value of each hex digit, like U will have its own binary value, + will have its own etc.
+
+### Variable Naming in Java
+Variable names in java are case sensitive. I.e. animal != Animal these two are seen as different variable names.
+Variable names can be letters, dollar sign($) or underscore(_)
+Must begin with a letter, dollar sign or underscore.
+Cannot use java keywords as variable names. Ex: int, public, String etc.
+Keep the variable names meaningful, avoid using names like int x, String s etc
+Make use of camel case in variable names, ex: fullName, myPassword etc.
+
+### Arithmetic Operators in Java
+1. Addition + - Used to add two numbers
+2. Subtraction - = subtraction of two numbers
+3. Division / - Used to divide to numbers.
+4. Multiplication * - Operator used to multiply two numbers.
+5. Modulo %  - This returns the remainder after dividing 2 numbers. Ex: 5/2 = 2, remainder = 1
+
+### Bitwise Operators
+These are operators used directly on bits and these operators can be used only on integral data types like byte, short, int and long. 
+These are not used on decimal numbers because the bits of decimal numbers get divided into parts so it is difficult to manipulate them.
+
+Also since they apply directly on bits they are faster than arithmetic operators.
+
+Ex: 00000101
+1 if we want to change a particular bit like shown we make use of these operators.
+
+### Bitwise operators are as follows:
+1. and &
+2. or |
+3. xor ^
+4. not ~
+5. left shift <<
+6. right shift >>
+7. unsigned right shift >>>
+
+Ex:
+### & Operator
+`int c = 5 & 4;`
+`sout(c)` → This will give 4.
+How did we get 4, As we know that bitwise operators manipulate the bits hence to understand this we have to print the bits of 5 and 4 
+
+If we do,
+`sout(Integer.toBinaryString(5));` → 101
+`sout(Integer.toBinaryString(4));` → 100
+As we know the operations happen on bits so & will happen between separate bits meaning,
+```
+1 | 0 | 1   In & operator even if one bit is 0 in a pair, the result is 0, similar to multiplication 
+&   &   &   where anything multiplied by 0 is 0. So 1 & 0 = 0.
+1 | 0 | 0     
+—-----
+1 | 0 | 0 =  4
+
+4 | 2 | 1 = (1*4) + (0*2) +(0*1) = 4
+2^2, 2^1, 2^0
+```
+### OR | operator
+In or operator, in pair of bits if any bit among the pair is 1 then their result is also 1
+int c = 5 | 4
+sout(c); → 2
+sout(Integer.toBinaryString(5)); → 1| 0 | 1
+sout(Integer.toBinaryString(7)); → 1 | 1 | 1
+```
+1| 0 | 1
+1| 1 | 1
+—-------
+1   1   1 -> 7
+4   2   1 = (4*1) + (2*1) + (1*1) = 7
+```
+
+### XOR ^ Operator
+In XOR operator if two bits are different only then, the result will be 1 else if two bits are same then it is 0
+```
+int c = 4 ^ 5;
+sout(c); → 2
+1   0   1
+1   1   1
+—--------
+0   1    0
+4   2    1 = (4*0) + (2*1) +(1*0) = 2
+```
+
+### NOT ~ Operator
+~ operator inverts the bit, i.e. it makes 1 -> 0 and 0 -> 1.
+It does not need a pair of bits or two bits to operate.
+Ex:
+```
+int a = 5;
+int b = ~a;
+sout(b); → This will give -6
+```
+
+# Why -6 when a was 5 ?
+Because let’s say in binary 101 = 5
+When the bits are inverted 0 1 0 now this will be -6, its just a hypothetical example bits of 5 and -6 might be different.
+
+### Left Shift << Operator
+The operator is responsible to shift the bits to the left side and fill the right side with zeros.
+We can also specify the number of bits to shift like in below ex.
+Ex:
+```
+int c = 5 << 2.
+```
+If the bits of 5 are 
+0000101
+0010100 → This will be the modified bit where the one zero was replaced with 1 marked in red and the other 0 is replaced by zero marked in green and two zeros are added after marked in orange.
+
+### Right Shift >> Operator
+It shifts the bits on the right side by canceling out if there are any bits ahead.
+Ex:
+```
+int a = 10;
+System.out.println(Integer.toBinaryString(a));
+int b = a >> 2;
+System.out.println(b);
+System.out.println(Integer.toBinaryString(b));
+```
+
+```
+Output:
+1010 - The binary of 10.
+2 - Integer value after shifting.
+10 - Two bits shifted to the right side, hence the from 1010 -> 10 remains which is the binary of number 2 in decimal.
+```
+
+Also in the right shift operator the sign before the number plays a vital role in changing the most significant bit .i.e. The first bit.
+
+Ex:
+```
+int a = -10;
+System.out.println(Integer.toBinaryString(a));
+int b = a >> 2;
+System.out.println(b);
+System.out.println(Integer.toBinaryString(b));
+```
+
+In the above example there is a -ve sign before 10, hence the first bit of 10 will become 1 as shown below in red.
+
+Output:
+```
+Also as we are shifting two bits to the right we can see that 10 marked in green is gone and 01 is there in the result.
+11111111111111111111111111110110 = 10
+11111111111111111111111111111101 = -3
+```
+
+### Unsigned Right Shift >>>
+This operator no matter the sign of the operand it keeps the MSB positive.
+
+Ex:
+```
+int a = -10;
+System.out.println(Integer.toBinaryString(a));
+int b = a >>> 2;
+System.out.println(b);
+System.out.println(Integer.toBinaryString(b));
+```
+```
+Output:
+11111111111111111111111111110110
+1073741821
+111111111111111111111111111101 
+```
+
+### Difference b/w println, printf and print statement
+1. println - will print a statement in new line, has same methods as printf.
+2. printf - helps to keep the print statement and the arguments clean, formatted and easy to read and does not print in a new line.
+3. print - Has same methods as println, just that prints in the same line does not use a new line.
+
+Ex:
+```
+int a = 5
+int b = 5
+System.out.println(“The Sum of  ” + a +“and ” +b +”is: ”+ a+b);
+System.out.printf(“The Sum of %s and %s is: %s”,a, b, (a+b));
+The one with is more readable than string concatenation in the println statement.
+```
