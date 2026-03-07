@@ -829,36 +829,39 @@ Package is nothing but a folder which consists of different class files. Package
 
 ex: 
 A package called animals can have a class called cat.
+```
 animals
     |__ Cat.java
-
+```
 The same package cannot have another class called Cat.java, but let’s say we have a requirement to create Cat class for a family of big cats, we can create a separate package called big cats and create a class Cat.java inside this package, now there won’t be any conflicts.
-
+```
 bigcats
      |_ Cat.java 
-
+```
 Packages help us in keeping things organized.
 
-Naming convention of a package
+### Naming convention of a package
 com.koinbasket.userservice
 The domain of the company is written in reverse order, followed by the package name.
 
-Class Path
+### Class Path
 It is the path of a class where it is located.
 
 ex:
-// This is the path of the class HashMap, it is called the class path. HashMap is in the java package, inside the java package there is a util package and inside that is the class HashMap.
-// If we observe we can see that the package names java, util etc are lowercase but when it comes to class it is in camel case that’s how we got to know that HashMap is a class.
-import java.util.HashMap;
+This is the path of the class HashMap, it is called the class path. HashMap is in the java package, inside the java package there is a util package and inside that is the class HashMap.
 
+If we observe we can see that the package names java, util etc are lowercase but when it comes to class it is in camel case that’s how we got to know that HashMap is a class.
+`import java.util.HashMap;`
+```
 class Test{
 	public static void main (String[] args){
 		HashMap<Integer, Integer> map = new HashMap<>();
+	}
 }
-}
-
+```
 Also, a class can have multiple classes but the file name must always be the name of the public class.
 ex:
+```
 public class Vehicle{
 
 }
@@ -866,10 +869,11 @@ public class Vehicle{
 class Car{
 
 }
-
-This is possible but the class file name inside the package must be Vehicle.java, it cannot be Car.java. Also in a single file there cannot be more than 1 public class.
+```
+This is possible but the class file name inside the package must be Vehicle.java, it cannot be Car.java. Also ***in a single file there cannot be more than 1 public class***.
 
 ex:
+```
 public class Vehicle{
 
 }
@@ -877,35 +881,38 @@ public class Vehicle{
 public class Car{ // This is not possible
 
 }
+```
+Also, this ***second class will only be accessible to other classes inside its own package, classes in other packages cannot access the second class***.
 
-Also, this second class will only be accessible to other classes inside its own package, classes in other packages cannot access the second class.
-
-Encapsulation
+## Encapsulation
 Encapsulation is bundling of properties and methods in a class.
 
 ex:
+```
 class Student{
 	// These are called fields or properties or also called instance variables.
 	String name;
 	int rollNo;
 	int age;
 }
-
-Instance variables - When an object of a class is created, then that object has the properties, these properties are called instance variables, as that object is an instance of a class.
+```
+- **Instance variables** - When an object of a class is created, then that object has the properties, these properties are called instance variables, as that object is an instance of a class.
 
 Also, it is always to be taken care that the properties must always be accessed via methods. 
 ex: In the above case, anyone can create an object and enter any values corresponding to the properties.
+```
 Student student1 = new Student();
 student1.name = “Taz”;
 student1.rollNo = -1;
 student1.age = -16;
+```
 
-w.k.t the roll no and age is wrong, so to avoid this we make the properties inside the class private and they are only accessible via methods. Private will make sure that the properties are not accessible outside the class.
-Methods will provide control over the properties of an instance, we can control what is allowed and what not.
+w.k.t the roll no and age is wrong, so to avoid this we make the properties inside the class private and they are only accessible via methods. Private will make sure that the properties are not accessible outside the class. Methods will provide control over the properties of an instance, we can control what is allowed and what not.
 
 ex: we can make sure that if someone enters age or roll no < 0, we can reject that number and keep the rollNo and age as 0.
 
 ex:
+```
 class Student{
 	private String name;
 	private int age;
@@ -913,58 +920,61 @@ class Student{
 
 	public void setName(String name){
 		this.name = name;
-}
+	}
 
-public void setAge(int age){
-	if (age < 0) {
-		this.age = 0;
-} else {
-	this.age = age;
-}
-}
-
+	public void setAge(int age){
+		if (age < 0) {
+			this.age = 0;
+		} else {
+			this.age = age;
+		}
+	}
 // similarly for rollNo.
 }
+```
 
 Now, no one can randomly set any value to age and rollNo, as we got control over it with the help of a method.
 
-What is this keyword ?
+## What is this keyword ?
 This keyword is used to refer to the properties and methods of an instance.
 ex: 
+```
 Student student1 = new Student();
 student1.setName(“Taz”); 
+```
 
 this keyword, makes sure that it sets the name field of object student1 in the heap memory.
 
 Let’s understand Encapsulation with example of a Bank Account
+```
 class Account{
 	private int accountNumber;
 	private balance;
 
 	public void deposit(int amount){
-	if (amount > 0){
-		balance += amount;
-		System.out.println(“amount added”);
-} else {
-	System.out.println(“Invalid amount”);
-}
-}
+		if (amount > 0){
+			balance += amount;
+			System.out.println(“amount added”);
+		} else {
+			System.out.println(“Invalid amount”);
+		}
+	}
 
-public void withdraw(int amount){
-	if (amount > 0 && amount <= balance){
-		balance-= amount;
-} else{
-	System.out.println(“Low Balance”);
+	public void withdraw(int amount){
+		if (amount > 0 && amount <= balance){
+			balance-= amount;
+		} else{
+			System.out.println(“Low Balance”);
+		}
+	}
 }
-}
-}
-
+```
 Here, with the help of encapsulation we can be sure that no invalid amount is deposited into the bank account and also be sure that the amount a user is trying to withdraw is with or within his account balance.
 
 We keep properties private and methods public.
 
-Lecture 20
-What are Constructors ?
+# Lecture 20
+## What are Constructors ?
 Constructors are special methods used to initialize an object.
 ex: Student student = new Student(); The underlined method is called a constructor. It is responsible for creating the object in the heap memory.
 
