@@ -1171,14 +1171,14 @@ This is not allowed because a smartphone will have its own method to power on, s
 To overcome this issue Java uses interfaces.
 
 # Lecture 22
-Polymorphism
+## Polymorphism
 Polymorphism allows methods to do different things based on the object it is acting upon, even though the method name and signature are the same.
 
 Poly - means many, and morph means - forms, hence many forms.
 
-Polymorphism is of 2 types:
-Compile time polymorphism
-Runtime polymorphism
+## Polymorphism is of 2 types:
+1. Compile time polymorphism
+2. Runtime polymorphism
 
 Compile time Polymorphism example,
 class Math{
