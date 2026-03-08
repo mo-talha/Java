@@ -37,7 +37,7 @@ Now we tell java to run Test.class file and give us the output
 `java Test` → On running this we get the output “Hello World!”
 
 
-`Note:`
+***Note:***
 Ok now to clear the confusion `javac` runs the compiler, `java` command runs the JVM which converts the byte code to machine code.
 
 Also one might think when providing a file to javac we specify Test.java, but when providing it to the JVM we just tell java Test, 
@@ -473,7 +473,7 @@ public class Main{
 		String a = "Taz";
 		String b = new String("Taz");
 
-		System.out.println(a==b); --> This will print false, as one is stored in 
+		System.out.println(a==b); --> This will print false, as one is stored in string pool and another in the heap.
 		System.out.println(a.equals(b)) --> This will print true, as it is checking the values.
 	}
 }
@@ -531,7 +531,6 @@ Also in case of an array we can get the length using, `arr.length` but in case o
 
 ### Printing an Array
 int[] arr = {1, 2, 3};
-
 
 System.out.println(arr); // This will print [I@372f7a8d, [ means its an array, I means of type integer and from @ is the hashcode of the array object arr, in Java every object is denoted by a hashcode.
 
@@ -1060,38 +1059,38 @@ class Student {
 ```
 
 # Lecture 21
-Inheritance
-Inheritance allows a class to inherit properties and methods of another class. It establishes a parent child relationship or IS-A relationship.
-
+## Inheritance
+Inheritance allows a class to inherit properties and methods of another class. It establishes a parent child relationship or IS-A relationship. 
 It promotes code reusability.
 
 ex: 
+```
 class Animal{
 	String name;
 	int age;
 
 	public void greet(){
 		System.out.println();
+	}
 }
-}
-
+```
 Now, the class dog can also have the properties name, age and method greet. But it will be a repetition of code. To avoid this we can inherit the animal class, and get the similar properties, and whatever extra is needed we can write it in dog class. Ex: A person’s father is 6ft tall and has blue iris color. A child can inherit the height but it’s not necessary that he will also inherit the iris color, he can have his own color black.
-
+```
 class Dog extends Animal{
 	public void greet(){
-	System.out.println(“woof”);
+		System.out.println(“woof”);
+	}
 }
-}
-
+```
 As we learnt above, it’s not necessary that a dog has to inherit the greet class from the parent, he can have his own behavior. This is called method overriding.
 Method Overriding is a child class implementing its own version of a method inherited from its parent class.
 
 This is also called single level inheritance, where the child is inheriting from the parent.
 
-Multi level inheritance
+## Multi level inheritance
 There can also be multi level inheritance, where child inherits from parent and parent inherits from grand parent. In this case the child class will have the properties from both parent and grand parent class.
 
-Hierarchical Inheritance
+## Hierarchical Inheritance
 Multiple subclasses inheriting from a single parent class, is called hierarchical inheritance.
 ex: Dog can extend Animal, similarly Cat can also extend Animal. This is called hierarchical inheritance.
 2 subclasses Cat and Dog inheriting from a single parent class Animal.
@@ -1102,75 +1101,76 @@ Then the parent class is initialized and finally the child class is initialized 
 
 If grandparent is not initialized then what will the parent inherit and if parent is not initialized then what will the child inherit.
 
-The new keyword
+## The new keyword
 new keyword is used to allocate memory to the object of a class in the heap memory during runtime. It is dynamic memory allocation, because the memory is allocated when the code is running.
 
 When we do javac, this is compiling but memory allocation of objects does not happen at compile time rather it happens at run time, i.e. when we do java Test.java
 
 When we write code in intellij and we see errors when typing this is because intellij keeps compiling the code in the background, hence we can call this stage as compile time.
 
-
-
-
-Constructor Chaining
+## Constructor Chaining
 When a child class extends a parent class and parent extends the grand parent class, the child class constructor will have the default constructor of its super or parent class. Similarly the super or parent class will have a constructor of its super or grand parent class.
 
 This constructor is required because the child says let parent initialize first then I will initialize as I’m inheriting from parent and parent class will say let grand parent initialize first because I need properties from him.
 
 This constructor of super class is denoted as super() and it is hidden as the default constructor of a class is hidden.
 
-Best Practices when overriding a method
+## Best Practices when overriding a method
 When overriding a method from the super class, we have to make sure that we use @override annotation.
 Because @Override annotation gives information that a method from a super class is being overridden.
 Also, @Override will let the constructor know that a method is being overridden, in this case if there is any mistake then the compiler will throw the error.
 ex:
+```
 class Dog{
 	@Override
 	public void greet1(){
 		System.out.println(“Woof”);
+	}
 }
-}
-
+```
 In the above case the compiler will throw an error saying that greet1 method does not exist in the super class, if the annotation is not present then greet1 will be a method on its own, and the user will be thinking the greet method from the super class is overridden.
 
-Multiple class inheritance
+## Multiple class inheritance
 Java supports multi level inheritance where a parent class extends grand parent class and child class extends parent class and hierarchical inheritance where multiple subclasses extend a single parent class, like we saw dog and cat extending animal class.
 
 Lets see multiple class inheritance with an example
+```
 class Camera{
 	public void powerOn(){
 		System.out.println(“booting camera”);
-}
+	}
 
 	public void clickPicture(){
 		System.out.println(“picture clicked”);
-}
+	}
 }
 
 class Musicplayer{
 	public void playMusic(){
 
 	System.out.println(“Playing music”);
-}
+	}
 }
 
 class Phone{
 	public void makePhoneCall(){
 		System.out.println(“Making Phone Call”);
+	}
 }
-}
-
+```
 Now, all the above are individual devices, but a smartphone can do all the above
 // This is not possible and this is called multiple class inheritance
+```
 class Smartphone extends Camera, Musicplayer, Phone{
 
 }
+```
 
 This is not allowed because a smartphone will have its own method to power on, similarly music player and camera will also have, this creates confusion, hence java does not allow this.
 
 To overcome this issue Java uses interfaces.
 
-Lecture 22
+# Lecture 22
 Polymorphism
 Polymorphism allows methods to do different things based on the object it is acting upon, even though the method name and signature are the same.
 
