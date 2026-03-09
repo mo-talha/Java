@@ -1457,6 +1457,7 @@ Now, the instance won’t be created, because school is not null, hence the same
 Any property, class, method without an access modifier is considered default. Default classes, properties and methods can only be accessed from the same package.
 
 ex:
+```
 class Animal{
 	String name;
 	int age;
@@ -1465,6 +1466,14 @@ class Animal{
 		return this.name;
 	}
 }
-
+```
 The above example shows a default class, default properties and a default method.
 
+```
+Access Modifier                      private   default   protected  public
+Same class                           Yes       Yes       Yes        Yes
+Same Package                         No        Yes       Yes        Yes
+Subclass (Same Package)              No        Yes       Yes        Yes
+Subclass (different package)         No        No        Yes        Yes
+Different Package (non - subclass)   No        No        No         Yes
+```
