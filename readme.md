@@ -1180,51 +1180,53 @@ Poly - means many, and morph means - forms, hence many forms.
 1. Compile time polymorphism
 2. Runtime polymorphism
 
-Compile time Polymorphism example,
+**Compile time Polymorphism**
+```
 class Math{
 	public void sum(int a, int b){
 		System.out.println(a+b);
-}
+	}
 
-public void sum(int a, int b, int c){
-		System.out.println(a+b+c);
-}
+	public void sum(int a, int b, int c){
+			System.out.println(a+b+c);
+	}
 
-public void sum(int a, int b, int c, int d){
-		System.out.println(a+b+c+d);
-}
+	public void sum(int a, int b, int c, int d){
+			System.out.println(a+b+c+d);
+	}
 
-public static void main(String[] args){
-	Math math = new Math();
-	math.sum(2, 3);
-	math.sum(2, 3, 4);
-math.sum(2, 3, 4, 5);
+	public static void main(String[] args){
+		Math math = new Math();
+		math.sum(2, 3);
+		math.sum(2, 3, 4);
+		math.sum(2, 3, 4, 5);
+	}
 }
-}
-
+```
 This is Compile Time Polymorphism, because at compile or at the time of writing code the compiler decides which method of sum needs to be called depending upon the parameters, if the method does not exist it will warn with an error.
 
-Since sum is method overloaded, we can also say method overloading is compile time polymorphism.
+Since sum is method overloaded, ***we can also say method overloading is compile time polymorphism***.
 
-Runtime Polymorphism
+**Runtime Polymorphism**
+```
 class Animal{
 	public void greet(){
 		System.out.println(“...”);
-}
+	}
 }
 
 class Dog extends Animal{
 	@Override
 	public void greet(){
 		System.out.println(“Woof”);
-}
+	}
 }
 
 class Cat extends Animal{
 	@Override
 	public void greet(){
 		System.out.println(“Meow”);
-}
+	}
 }
 
 class Test{
@@ -1234,78 +1236,81 @@ class Test{
 		Animal cat = new Cat();
 		dog.greet();
 		cat.greet();
+	}
 }
-}
-
+```
 Now, in the above code the new keyword will dynamically allocate memory when the code runs or at runtime for the object dog and cat.
 JVM sees that greet method is being called, it will pick the greet method from the dog object and same for cat even though they are referencing the Animal class, the JVM is smart enough to know that it has initialized an object of class Dog and a separate object of class Cat as new keyword is used.
 
-Also, the greet method in both Dog and Cat class are overridden hence, this happens at runtime when the objects are initialized, hence method overriding is at runtime.
+Also, the greet method in both Dog and Cat class are overridden hence, this happens at runtime when the objects are initialized, hence ***method overriding is at runtime***.
 
-So, Method Overloading is at Compile time and
-Method Overriding is at Runtime.
+So, ***Method Overloading is at Compile time and Method Overriding is at Runtime***.
 
 So we can see examples of polymorphism. We are referencing both Cat and Dog objects with Animal class but both are different objects.
 Similarly the greet method looks the same for both the objects of Dog and Cat but their behaviour is different.
 
-What is Dynamic Method Dispatch ?
+## What is Dynamic Method Dispatch ?
 We saw that at runtime it was decided by JVM which method to call for Dog and Cat, this decision during runtime is called Dynamic Method Dispatch. Dispatch is nothing but calling a method.
 
-What is Upcasting ?
+## What is Upcasting ?
 We saw that child class objects can be referenced to super class, this is upcasting. 
 Similarly there is Downcasting, but we know that this is not possible Dog dog = new Animal(); then how ??
-
+```
 Animal dog = new Dog();
 Dog myDog = (Dog) dog; // This is downcasting
-
+```
 or 
+```
 float num = 2.344;
 int num1 = (int) num; // Downcasting
-
-Note:
+```
+***Note:***
 We cannot call all the child class methods using a super class reference. Meaning, 
+```
 class Animal{
-	public void greet(){
+	public void sayHello(){
 		System.out.println(“...”);
-}
+	}
 }
 
 class Dog extends Animal{
 	@Override
-	public void greet(){
+	public void sayHello(){
 		System.out.println(“Woof”);
-}
+	}
 
-public void bye(){
-	System.out.println(“Bye Bye”);
-}
+	public void sayBye(){
+		System.out.println(“Bye Bye”);
+	}
 }
 
 Animal bob = new Dog();
 bob.sayHello(); // This is possible because it’s there in the reference class Animal.
 bob.sayBye(); // This is not possible because it’s not there in the reference class Animal.
+```
 
 Since bob is referencing Animal class it can only access methods in the Animal or referencing class.
 
-Lecture 23
-Abstraction
+# Lecture 23
+## Abstraction
 Abstraction is the way of hiding inner details.
 
 Methods can be abstract. But abstract methods can only be written inside an abstract class. The abstract class can also have concrete methods.
 
-What is an Abstract method ?
+## What is an Abstract method ?
 A method without the function body is called the abstract method.
 
-What is a concrete method ?
+## What is a concrete method ?
 A method with definition or a proper function body is called a concrete method.
 
-Syntax of an abstract method
-access modifier abstract keyword return type method name (); The abstract keyword sits b/w the access modifier and the return type.
+## Syntax of an abstract method
+`access modifier abstract keyword return type method name ();` The abstract keyword sits b/w the access modifier and the return type.
 
-Why is an abstract method used ?
-When we want a method without definition, then we have to declare that method as abstract.
-An abstract method cannot be written inside a normal class.
+## Why is an abstract method used ?
+When we want a method without definition, then we have to declare that method as abstract. An abstract method cannot be written inside a normal class.
+
 ex:
+```
 public abstract class Animal{
 	// abstract method
 	public abstract void makeSound();
@@ -1313,8 +1318,9 @@ public abstract class Animal{
 	// concrete method
 	public void sleep(){
 		System.out.println(“zzz…”);
+	}
 }
-}
+```
 
 W.K.T every animal sounds different, with the help of abstraction any class extending Animal class will be alerted to implement their own version makeSound or the abstract method.
 
@@ -1322,41 +1328,47 @@ Previously in the Animal class we had a concrete method makeSound, which we were
 
 The extending class must either implement the method or make itself abstract, indicating that even it does not want to implement and keep the method inherited from the parent class abstract.
 
-ex: 
+ex:
+``` 
 public class Cat extends Animal{
 	@Override 
 	public void makeSound(){
 		System.out.println(“meow”);
+	}
 }
-}
-
+```
 Or
-
+```
 public abstract class Cat extends Animal{
 	@Override 
 	public abstract void makeSound();
 }
+```
 
 We can implement all the things in an abstract class like we do in a normal class. But the advantage of an abstract class is we can have methods without definition inside it, which the extending classes can override or leave it abstract.
 
-**But, we cannot create an object of the abstract class, because it does not make sense. We will have methods without definition, so initializing an object which has methods with no definition is not possible. 
+***Note:***
+But, we cannot create an object of the abstract class, because it does not make sense. We will have methods without definition, so initializing an object which has methods with no definition is not possible. 
 
-We cannot do, Animal animal = new Animal(); //this is not possible
+We cannot do, `Animal animal = new Animal();`
 Abstract classes are useful when we know that there can be a hierarchical inheritance of a single class and every child class can have its own methods which are different from each other, in such cases abstract class will have only abstract method signatures in it and child classes will have their implementation of the abstract methods and they can also have their own separate specific methods which belong to that class only.
 
-Abstract methods need to be public, only then they can be implemented by the extending class.
+Lets say we have a class called Car now w.k.t every car has common things such as accelerate, brake, power on etc We can implement these common methods inside the abstract class Car and every object extending this class like Toyota, Honda, BMW etc can have these methods ready, this helps in avoiding writing repeated methods.
 
-Access Modifiers
+***Abstract methods need to be public, only then they can be implemented by the extending class.***
+
+## Access Modifiers
 These are keywords in Java, which decide the visibility of a class, properties and methods.
 
-These are:
-public
-private
-Protected
+### These are:
+1. public
+2. private
+3. Protected
 
+### Public
 Any class, property or method if it is public it can be accessed from any package.
 
-Private
+### Private
 If a property or method in a class is private then it is only accessible within that class. Classes can be only public and default.
 
 ex:
@@ -1367,11 +1379,12 @@ public class Student{
 	// Both age and rollNo and method sayHello can only be accessed within the student class.
 	private void sayHello(){
 	
-}
+	}
 }
 
 Similarly, a constructor can also be private, but if a constructor is private then the object of that class cannot be created. 
-Then, what’s the use of making a constructor private ?
+
+Then, ***what’s the use of making a constructor private ?***
 There are many cases where creating an object of the class is not required, but there will be methods in that class which will be needed.
 
 In such cases, the constructor of the class will be private but the methods will be static, static methods can be accessed without initializing an object of that class.
@@ -1381,26 +1394,29 @@ Static methods are bound to a class itself.
 
 Meaning to access non static methods we need to create an object of the class first, only then we will be able to use its methods.
 ex:
+```
 class Math{
-public int sum(int a, int b){
-		return a+b;
-}	
+	public int sum(int a, int b){
+			return a+b;
+	}	
 
-	public int multiply(int a, int b){
-		return a*b;
+		public int multiply(int a, int b){
+			return a*b;
+	}
 }
-}
-
+```
 To access the above methods, we need to create an object of the Math class,
+```
 Math math = new Math();
 int ans = math.sum(2, 3);
+```
 
 But, in Java there are classes which are called utility classes, meaning they consist of static methods, and creating an object of that class is not required. 
 ex: Math, Arrays etc
 We can directly use methods like,
-Math.pow(a, b); to get a number raised to b
-Math.abs(int x); to get an absolute value of a number;
-Arrays.sort(); sorts an array in ascending order.
+`Math.pow(a, b);` to get a number raised to b
+`Math.abs(int x);` to get an absolute value of a number;
+`Arrays.sort();` sorts an array in ascending order.
 
 These classes have their constructors private. So when someone tries to create an object of a utility class, they will be warned that they cannot do so. The private constructor will prevent the object instantiation.
 
@@ -1408,30 +1424,34 @@ Another use case of a Private Constructor
 If we want only one object of a class to be instantiated, we can use a Private Constructor.
 
 ex:
+```
 public class School{
 	private static School school;
 
 	private School(){
-		
+
+	}
 }
 
 public static School getInstance(){
 	if (school == null){
 		school = new School(); // the constructor can be called even though it is private because it is being called from the same class, private methods and properties can be accessed only within the same class.
+	}
+	return school;
+	}
 }
-return school;
-}
-}
+```
 
 now when we do,
-School school = new School(); // This is not possible because constructor is private
+`School school = new School();` // This is not possible because constructor is private
 
 W.K.T its method getInstance is static, we can use that to get an object of School
-School.getInstance(); 
-// Since, we are calling getInstance() for the first time, the if check in the getInstance method knows that school is null, hence a new instance or object is created and returned.
+`School.getInstance();` 
 
-School.getInstance();
-// Now, the instance won’t be created, because school is not null, hence the same instance will be returned.
+Since, we are calling getInstance() for the first time, the if check in the getInstance method knows that school is null, hence a new instance or object is created and returned.
+
+`School.getInstance();`
+Now, the instance won’t be created, because school is not null, hence the same instance will be returned.
 
 3. Default
 Any property, class, method without an access modifier is considered default. Default classes, properties and methods can only be accessed from the same package.
@@ -1443,9 +1463,8 @@ class Animal{
 
 	String getName(){
 		return this.name;
-}
+	}
 }
 
 The above example shows a default class, default properties and a default method.
-
 
