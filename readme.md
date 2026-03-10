@@ -1477,3 +1477,144 @@ Subclass (Same Package)              No        Yes       Yes        Yes
 Subclass (different package)         No        No        Yes        Yes
 Different Package (non - subclass)   No        No        No         Yes
 ```
+
+# Lecture 25
+## Static 
+When ever we use static with any field, method name etc it becomes part of a class not an instance. Meaning such a property can be directly accessed using the class, there is no need to create an object or instance of it.
+
+ex: If we have to access properties of a class, we usually create an object of the class and access the properties via the object, because the properties are instance properties.
+
+```
+public class Student{
+	public String Name;
+	public int age;
+	public int rollNo;
+
+	public static void main(String[] args){
+		Student student = new Student();
+		student.name = "Taz";
+		student.age = 23;
+	}
+}
+```
+
+But static gives us the ability to access properties or methods of a class directly via class.
+
+```
+public class Student{
+	public static String Name;
+	public int age;
+	public int rollNo;
+
+	public static void main(String[] args){
+		Student.name = "Taz";
+	}
+}
+```
+
+## When should we use ***static*** ?
+static is mostly used on properties which will be common among all objects, like school name, count of students etc It also helps save memory as there will be no need to initialize the same property for every object.
+
+ex:
+```
+public class Student{
+	public static count;
+	public static schoolName = "St. John's High School";
+
+	public int age;
+	public int rollNo;
+
+	public Student(){
+		count+=1;
+	}
+
+	public static void main(String[] args){
+		Student.name = "Taz";
+	}
+}
+```
+Now, the properties count and schoolName can be accessed directly via Student.count or Student.schoolName, also since count is a common property which holds the number of students in the school, every time a new object is created of class Student the count increases.
+
+In the below example the count property is not static, meaning now it is an instance property, hence everytime a student object is created the count increases to 1 but it won't store collective count of students objects as it is not a common property but an instance property.
+
+```
+public class Student{
+	public count;
+	public static schoolName = "St. John's High School";
+
+	public int age;
+	public int rollNo;
+
+	public Student(){
+		count+=1;
+	}
+
+	public static void main(String[] args){
+		Student.name = "Taz";
+	}
+}
+```
+
+Static method cannot use non-static data member or cannot call a non static method directly.
+
+similarly this and super cannot be used in static context, because this refers to an object but static only deals with the class and super refers to the constructor of the parent but constructor means object and static is at the class level.
+
+***Note***: 
+Before any instance of a class is created the static variables are already initialized.
+
+## static block
+A static block is a block of code that runs once when the class is first loaded into the memory by the JVM.
+
+```
+class Test{
+	public static void main(String[] args){
+		System.out.println("Hello World!");
+	}
+}
+```
+JVM needs the main method to be static as it will not create an instance of class Test to run main method. It will directly use class name and run the main method, like Test.main()
+
+Similarly a static block can be created in a class to initialize any complex variable initialization, validating config at startup etc which needs to be initialized when ever the class is first loaded into the memory.
+
+ex: A database manager, it needs to initalize the size of connection pool, the url etc these can be put under the static block as these are to be used throughout the application lifecycle.
+
+```
+public class DatabaseConfig {
+    
+    private static Properties config = new Properties();
+    private static Connection connection;
+    
+    // Static block for complex initialization
+    static {
+        try {
+            // Load configuration file
+            FileInputStream fis = new FileInputStream("config.properties");
+            config.load(fis);
+            
+            // Establish database connection
+            String url = config.getProperty("db.url");
+            String user = config.getProperty("db.user");
+            String password = config.getProperty("db.password");
+            
+            connection = DriverManager.getConnection(url, user, password);
+            
+            System.out.println("Database connected successfully");
+            
+        } catch (Exception e) {
+            System.err.println("Failed to initialize database: " + e.getMessage());
+            // Handle critical failure
+        }
+    }
+    
+    public static Connection getConnection() {
+        return connection;
+    }
+}
+```
+
+In the above class we can directly get the database connection using,
+```
+DatabaseConfig.getConnection();
+```
+When we call the method getConnection() the class gets loaded in the memory and the static block is run first creating the db connection and the getConnection() method will return it to us.
+
