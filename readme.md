@@ -1618,3 +1618,30 @@ DatabaseConfig.getConnection();
 ```
 When we call the method getConnection() the class gets loaded in the memory and the static block is run first creating the db connection and the getConnection() method will return it to us.
 
+## When should we use static methods ?
+static methods are mostly used inisde utility classes, these methods can also be called utility methods, methods which can be handy during development.
+
+ex: We can have a class called Utils and inside this class we can have static methods like to check if an email is valid or not, to get min or max from two numbers, to check if a mobile no is valid or not etc. 
+
+These methods can be common across multiple classes hence they are utility methods and can be declared as static methods inside a utility class.
+
+```
+public class Utility{
+	public static Boolean isEmailValid(String email){
+		if (email.contains("@gmail.com")){
+			return true;
+		}
+		return false;
+	}
+
+	public static Boolean isMobileValid(String mobileNo){
+		if (mobileNo.contains("+91")){
+			return true;
+		}
+		return false;
+	}
+}
+```
+
+Also we can see that since email, mobileNo are of type String we are able to access the contains() method using dot(.) because contains is a static method inside the String class.
+
