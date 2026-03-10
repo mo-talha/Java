@@ -1645,3 +1645,28 @@ public class Utility{
 
 Also we can see that since email, mobileNo are of type String we are able to access the contains() method using dot(.) because contains is a static method inside the String class.
 
+
+## Static inisde a singleton class
+static can be used inside a singleton class, if we have a requirement that there should be only one object of school then we can make use of static.
+
+```
+public class School{
+	private static School school = new School();
+
+	private School(){
+
+	}
+
+	public School getSchool(){
+		return school;
+	}
+}
+```
+
+Now no matter what we create we will get the same school object everytime, since the constructor is private we won't be able to create an object.
+
+```
+School school = new School(); // This will not be able to invoke the constructor, as the constructor is private and a private field cannot be accessed outside the class.
+```
+
+Hence we have to use the getSchool() method, this will return the object.
