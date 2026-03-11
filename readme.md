@@ -1670,3 +1670,14 @@ School school = new School(); // This will not be able to invoke the constructor
 ```
 
 Hence we have to use the getSchool() method, this will return the object.
+
+<!-- Check if a class can be static or not ?? -->
+
+## Difference b/w static and singleton
+Static classes and singleton serve different purposes. Static classes are for utility functions without state, like `MathUtils` or `StringUtils`. They are loaded at class loading time.
+
+Singletons are for managing shared resources that need exactly one instance but with full OOP capabilities. They can implement interfaces, support inheritance, be lazy-loaded and testable with dependency injection.
+
+***Note:***
+Use static for stateless utilities, use singleton for stateful resources that need controlled access. Singletons are objects static classes are not.
+
