@@ -1681,3 +1681,281 @@ Singletons are for managing shared resources that need exactly one instance but 
 ***Note:***
 Use static for stateless utilities, use singleton for stateful resources that need controlled access. Singletons are objects static classes are not.
 
+# Lecture 26
+## final Keyword
+final keyword is used to prevent inheritance. It can be used on reference variables, methods and classes.
+
+When a variable is made final then the value given to the variable cannot change, the value given to it when initializing it will be its final value. We cannot alter by setter or by accessing via class.
+
+ex:
+```
+public class MathUtils{
+	public static final double pi = 3.1495;
+
+	public void setPi(double value){
+		pi = value; // this will also not work
+	}
+}
+
+MathUtils.pi = 2.22; // This is not possible
+```
+
+So if we have any constant values we can create a variable and make it final.
+
+### final on Methods
+```
+public class AxisBank{
+	public final int calculateInterest(int amount, int years){
+		// critical business logic here
+	}
+}
+
+public class SavingsAccount extends AxisBank{
+	@override
+	public final int calculateInterest(int amount, int years){
+		// critical business logic here
+	}
+}
+```
+
+Here we see savings account trying to override the critical method calculateInterest but since the method is final in the parent class the subclasses won't be able to override it.
+
+Hence we can use final to protect critical business logic, this will also indicate to the subclasses that this method cannot be overidden.
+
+Similarly we can make a template methods final, meaning a method in class which is responsible to call other methods to complete an operation in a required sequence can be made final, this way the extending classes won't be able to alter this method. This helps in keeping the flow of main algorithm consistent across other subclasses.
+
+ex:
+public abstract class Scraper{
+	public final void flow(){
+		openBrowser();
+		getData();
+		loadData();
+		processData();
+		cleanup();
+	}
+
+	public abstract openBrowser();
+	// similarly other methods, now scrapers like insta scraper, amazon scraper etc will extend the Scraper abstract class and will override the abstract methods but won't be able to override the flow method, it remains constant maintaing the state of algorithm.
+}
+
+## The below is an example of a banking system explaining where and how final can be used 
+```
+/**
+ * Base class for all bank accounts
+ * Demonstrates proper use of final methods
+ */
+public abstract class BankAccount {
+    
+    // Core state - protected but not directly modifiable
+    private String accountNumber;
+    private BigDecimal balance;
+    private String accountHolder;
+    private LocalDateTime openedDate;
+    private List<Transaction> transactionHistory;
+    
+    // Constructor - sets up immutable account data
+    public BankAccount(String accountNumber, String accountHolder, BigDecimal initialDeposit) {
+        this.accountNumber = accountNumber;
+        this.accountHolder = accountHolder;
+        this.balance = initialDeposit;
+        this.openedDate = LocalDateTime.now();
+        this.transactionHistory = new ArrayList<>();
+        
+        // Record initial deposit
+        recordTransaction("OPEN", initialDeposit);
+        
+        // Validate account after construction
+        validateAccount();
+    }
+    
+    // FINAL - Core banking logic must be consistent across all account types
+    public final boolean withdraw(BigDecimal amount) {
+        // Validate inputs
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Invalid withdrawal amount");
+        }
+        
+        // Check sufficient funds (uses abstract method - different per account)
+        if (!hasSufficientFunds(amount)) {
+            return false;
+        }
+        
+        // Apply withdrawal (final - must be consistent)
+        BigDecimal newBalance = balance.subtract(amount);
+        setBalance(newBalance);
+        
+        // Record transaction
+        recordTransaction("WITHDRAW", amount.negate());
+        
+        // Notify account holder
+        notifyWithdrawal(amount);
+        
+        return true;
+    }
+    
+    // FINAL - Deposit logic must be consistent
+    public final void deposit(BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Invalid deposit amount");
+        }
+        
+        BigDecimal newBalance = balance.add(amount);
+        setBalance(newBalance);
+        
+        recordTransaction("DEPOSIT", amount);
+        notifyDeposit(amount);
+    }
+    
+    // FINAL - Getter for immutable data
+    public final String getAccountNumber() {
+        return accountNumber;
+    }
+    
+    // FINAL - Getter for immutable data
+    public final String getAccountHolder() {
+        return accountHolder;
+    }
+    
+    // FINAL - Getter for immutable data
+    public final LocalDateTime getOpenedDate() {
+        return openedDate;
+    }
+    
+    // FINAL - Thread-safe balance access
+    public final synchronized BigDecimal getBalance() {
+        return balance;
+    }
+    
+    // FINAL - Transaction history must be consistent
+    public final List<Transaction> getTransactionHistory() {
+        return Collections.unmodifiableList(transactionHistory);
+    }
+    
+    // Protected final - Child classes can use but not override
+    protected final void setBalance(BigDecimal newBalance) {
+        this.balance = newBalance;
+    }
+    
+    // Protected final - Record transactions consistently
+    protected final void recordTransaction(String type, BigDecimal amount) {
+        Transaction txn = new Transaction(
+            UUID.randomUUID().toString(),
+            type,
+            amount,
+            LocalDateTime.now(),
+            balance
+        );
+        transactionHistory.add(txn);
+    }
+    
+    // Private final - Internal validation, can't be overridden
+    private final void validateAccount() {
+        if (accountNumber == null || accountNumber.trim().isEmpty()) {
+            throw new IllegalStateException("Account number required");
+        }
+        if (accountHolder == null || accountHolder.trim().isEmpty()) {
+            throw new IllegalStateException("Account holder required");
+        }
+        if (balance == null || balance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalStateException("Initial balance invalid");
+        }
+    }
+    
+    // ABSTRACT - Must be implemented by subclasses
+    protected abstract boolean hasSufficientFunds(BigDecimal amount);
+    
+    // Hook methods - Optional customization
+    protected void notifyWithdrawal(BigDecimal amount) {
+        // Default: do nothing
+    }
+    
+    protected void notifyDeposit(BigDecimal amount) {
+        // Default: do nothing
+    }
+    
+    // Inner class for transactions (immutable)
+    public static final class Transaction {
+        private final String id;
+        private final String type;
+        private final BigDecimal amount;
+        private final LocalDateTime timestamp;
+        private final BigDecimal balanceAfter;
+        
+        public Transaction(String id, String type, BigDecimal amount, 
+                          LocalDateTime timestamp, BigDecimal balanceAfter) {
+            this.id = id;
+            this.type = type;
+            this.amount = amount;
+            this.timestamp = timestamp;
+            this.balanceAfter = balanceAfter;
+        }
+        
+        // FINAL getters for immutable data
+        public final String getId() { return id; }
+        public final String getType() { return type; }
+        public final BigDecimal getAmount() { return amount; }
+        public final LocalDateTime getTimestamp() { return timestamp; }
+        public final BigDecimal getBalanceAfter() { return balanceAfter; }
+    }
+}
+
+/**
+ * Concrete implementation - Savings account
+ */
+public class SavingsAccount extends BankAccount {
+    
+    private BigDecimal interestRate;
+    private int minimumBalance;
+    
+    public SavingsAccount(String accountNumber, String accountHolder, 
+                          BigDecimal initialDeposit, BigDecimal interestRate) {
+        super(accountNumber, accountHolder, initialDeposit);
+        this.interestRate = interestRate;
+        this.minimumBalance = 1000; // Minimum ₹1000
+    }
+    
+    // Must implement abstract method
+    @Override
+    protected boolean hasSufficientFunds(BigDecimal amount) {
+        // Savings accounts can't go below minimum balance
+        BigDecimal balanceAfter = getBalance().subtract(amount);
+        return balanceAfter.compareTo(BigDecimal.valueOf(minimumBalance)) >= 0;
+    }
+    
+    // Can override hook methods
+    @Override
+    protected void notifyWithdrawal(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.valueOf(50000)) > 0) {
+            sendSMS("Large withdrawal: " + amount);
+        }
+    }
+    
+    private void sendSMS(String message) {
+        System.out.println("SMS: " + message);
+    }
+    
+    // Calculate interest - not final, can be customized
+    public BigDecimal calculateInterest() {
+        return getBalance().multiply(interestRate).divide(BigDecimal.valueOf(100));
+    }
+}
+
+// Usage example:
+public class BankingDemo {
+    public static void main(String[] args) {
+        SavingsAccount account = new SavingsAccount(
+            "ACC123", "John Doe", new BigDecimal("50000"), new BigDecimal("3.5")
+        );
+        
+        // Core operations are FINAL - consistent across all account types
+        account.withdraw(new BigDecimal("10000"));
+        account.deposit(new BigDecimal("20000"));
+        
+        // Can't override withdraw() - banking logic is safe!
+        // account.withdraw = new implementation? NO - final prevents this
+        
+        System.out.println("Balance: " + account.getBalance());
+        System.out.println("Interest: " + account.calculateInterest());
+    }
+}
+```
