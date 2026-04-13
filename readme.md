@@ -568,6 +568,31 @@ In my own classes, I always override toString() to return meaningful state infor
 │ Your class      │ MyClass@3e8a99e4        │ Override it!     │
 └─────────────────┴─────────────────────────┴──────────────────┘
 ```
+### Understanding 2D Arrays
+```
+int[][] nums = new int[3][3]
+```
+The above line creates an int array of 3 blocks in the memory first. Then it creates 3 separate int arrays of size 3 in the memory and then the main
+array stores the addresses of these individual arrays in its 0th, 1st and 2nd indices. 
+
+For us it looks like a matrix but internally this is a main array object in the heap storing addresses of other 3 array objects.
+
+### Running a for loop on 2D Array
+```
+int[][] = {
+	{1, 2, 3, 4},
+	{5, 6, 7, 8}
+};
+
+for (int i = 0; i < nums.length; i++){
+	for (int j = 0; j < nums.length; j++){
+		System.out.println(nums[i][j]);
+	}
+}
+```
+
+The loop, nums[0][0] goes in the memory and gets into the first array object in the main array, gets its first element and prints it.
+
 ### What are Jagged Arrays ?
 2D arrays with where each row has different column size.
 ex:
