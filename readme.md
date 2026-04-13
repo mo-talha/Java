@@ -179,10 +179,10 @@ ex: byte num = 10;  since byte can store 8 bits, 10 in bits is 1010, which is 4 
 
 2. short = 2 bytes = 16 bits
 
-3. int = 4 bytes = 36 bits
+3. int = 4 bytes = 32 bits
 
 4. long = 8 bytes = 64 bits
-5. float = 4 bytes = 36 bits
+5. float = 4 bytes = 32 bits
 7. double = 8 bytes = 64 bits
 8. Boolean = 1 bit = 0 or 1
 
