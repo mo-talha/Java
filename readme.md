@@ -593,6 +593,48 @@ for (int i = 0; i < nums.length; i++){
 
 The loop, nums[0][0] goes in the memory and gets into the first array object in the main array, gets its first element and prints it.
 
+### Understanding Random Access in Arrays
+```
+int[] nums = new int[3];
+```
+The above statement creates an array of size 3 lets say in heap at memory address 100. Since it is of type int each of the 3 boxes will be of size
+4 bytes or 32 bits.
+
+now when we do, 
+```
+nums[0] = 1;
+nums[1] = 2;
+nums[3] = 3;
+```
+The JVM will store the 1, 2 and 3 in binary form in the boxes.
+
+When we try to access one of these, let's understand how is it possible to access elements from array that fast,
+```
+System.out.println(nums[1]);
+```
+W.K.T. the base memory address of the array nums is 100 i.e. is the first box. Now when try to access nums[1], JVM does not traverse from 100 linearly
+and then get the element at index but 1, instead it does the following,
+1. Gets the base address 100
+2. Gets the size of the data type of nums i.e. 4 bytes (int)
+3. location = 100 + 4 * index 
+so, 100 + (4 * 1) = 104, so JVM will directly go to memory address 104 and from there since it has to read an int type it will add 4 more bytes and it 
+will read till 108 so 104 - 108 memory address will have the binary of 2.
+
+Similarly if we access nums[0], it will be 
+base address + (data type size * index) 
+i.e. 100 + (4 * 0) = 100, from 100 - 104 since it is an int type.
+
+**Note: Size of boolean:**
+The size of boolean will be decided by the JVM depending upon the platform. The official Java docs mention 1 byte. But boolean needs only 1 bit 0 means true
+1 means false, but JVM is designed to read memory in chunks of min 8 bits it will not read single bits on the memory.
+
+When a variable is created and the program runs the variables are loaded into the RAM, and CPU is designed to read memory in chunks usually like 1 byte, 4 bytes
+etc due to this oracle has specified boolean size as 1 byte to not disturb CPU optimizations. This is called memory optimization for CPU needs.
+
+### Understanding Array Index Out of Bounds Exception
+Taking the above example if we try to access nums[8] then its location will be 100 + (4 * 8) = 132, this will throw the exception because something else might be
+there at memory location 132 to be safe it throws the Exception instead of accessing it.
+
 ### What are Jagged Arrays ?
 2D arrays with where each row has different column size.
 ex:
