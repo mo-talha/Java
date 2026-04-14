@@ -635,6 +635,23 @@ etc due to this oracle has specified boolean size as 1 byte to not disturb CPU o
 Taking the above example if we try to access nums[8] then its location will be 100 + (4 * 8) = 132, this will throw the exception because something else might be
 there at memory location 132 to be safe it throws the Exception instead of accessing it.
 
+### How does Random Access on Strings work ?
+```
+String[] arr = new String[3];
+arr[0] = "ron";
+arr[1] = "taz";
+arr[2] = "pep";
+
+System.out.println(arr[1]);
+System.out.println(arr[2]);
+```
+String is a non-primitive so random access is different compared to a primitive type array. Here if the base memory address is 100, jvm will reach 100 and at 1st
+index it will get the reference to the memory address of String object "taz", similarly for "pep". It will pick the values "taz", "pep" from the reference and
+then print it.
+
+Now references take 4 bytes on memory, so to pick a reference it will reach 100 + (4 * index) i.e. 100 + (4 * 1), 104 so to get the String at 1st index JVM will
+read from 104 - 108.
+
 ### What are Jagged Arrays ?
 2D arrays with where each row has different column size.
 ex:
