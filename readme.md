@@ -2166,3 +2166,96 @@ public class Main{
 ```
 This is still call by value, but the value this time is the address of num we are sending the address of num to addTen, and internally addTen will
 now be pointing to same object num in the heap and any changes done by addTen will be on a and b of the same object.
+
+### Deep Copy vs Shallow Copy
+```
+class Random{
+	int a;
+	int b;
+	
+	public Random(int a, int b){
+		this.a = a;
+		this.b = b;
+	}
+	
+	public Random(Random r){
+		this.a = r.a;
+		this.b = r.b;
+	}
+}
+
+public class Main{
+	public static void main(String[] args){
+		Random num = new Random(3, 4);
+		Random num2 = new Random(num);
+
+		System.out.println(num.a, num.b); // 3, 4
+		
+		addTen(num2);	
+
+		System.out.println(num.a, num.b); // 3, 4
+		System.out.println(num2.a, num2.b); // 13, 14
+	}
+	
+	public static void addTen(Random r){
+		r.a = r.a + 10;
+		r.b = r.b + 10;
+	} 
+}
+```
+
+In the above code snippet `num2` gets the reference of num but still num.a and num.b won't be changed as num2 is a different object in the memory and num1 is a 
+separate object. So even though num2 receives the reference value of num still the constructor of num2 is just picking the values of num.a and num.b and setting
+those values to num2.a and num2.b.
+
+Hence we run `addTen(num2)` then 10 is added to num2s variables a and b which are part of a separate random object in the heap.
+
+***This is called Deep Copy***
+
+### Shallow Copy
+```
+class Random{
+	int a;
+	int b;
+	
+	public Random(int a, int b){
+		this.a = a;
+		this.b = b;
+	}
+	
+	public Random(Random r){
+		this.a = r.a;
+		this.b = r.b;
+	}
+}
+
+public class Main{
+	public static void main(String[] args){
+		Random num = new Random(3, 4);
+		Random num2 = num;
+
+		System.out.println(num.a, num.b); // 3, 4
+		
+		addTen(num2);	
+
+		System.out.println(num.a, num.b); // 3, 4
+		System.out.println(num2.a, num2.b); // 13, 14
+	}
+	
+	public static void addTen(Random r){
+		r.a = r.a + 10;
+		r.b = r.b + 10;
+	} 
+}
+```
+In the above code num2 is pointing to num and any changes done by num2 will affect the same object hence this is called a shallow copy.
+
+So,
+Deep Copy - Creates a new object along with separate copies of all referenced objects, ensuring complete independence b/w original and copied objects. Any change
+made to one object does not affect the other.
+
+Shallow Copy - Creates a new object but does not duplicate referenced objects, instead it copies their references. Both the original and copied objects point to
+the same memory location for reference fields.
+
+Default behaviour of Object.clone() method is shallow copy.
+Primitive fields are copied, while non-primitives are shared.
