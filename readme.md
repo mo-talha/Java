@@ -2043,3 +2043,61 @@ public class BankingDemo {
     }
 }
 ```
+# Lecture - 14 (Coder Army)
+## Objects Deep Dive (Size of an object, call by value, call by reference, shallow vs deep copy)
+```
+public class Student{
+	int rollNo;
+	String name;
+	int age;
+	String parentName;
+	
+	public Student(int rollNo, String name, int age, String parentName){
+		this.rollNo = rollNo;
+		this.name = name;
+		this.age = age;
+		this.parentName = parentName;
+	}
+	
+	public static void main(String[] args){
+		Student student1 = new Student(1, "Mohammed Talha", 13, "Hashmathulla");
+	}
+}
+```
+To determine the size of object `student1` we it is not how we do it for primitives. Here we will take sizes of data types of each individual field in the
+class, like rollNo is of type int so it takes 4 bytes, name is type of String, String stores reference and reference takes either 4 bytes or 8 bytes here let's
+consider 4 bytes, similarly 4 bytes for age and 4 bytes for parentName.
+so, 
+4 bytes + 4 bytes + 4 bytes + 4 bytes = 16 bytes, but the object takes more than this on memory lets see why.
+
+### Object Size depends on,
+1. Header Size/Object headers
+2. Exact fields (16 bytes which we just calculated above)
+3. Padding
+
+### Header Size/ Object headers:
+This is data like Mark Words and Class Pointer. Under Mark Words there is information like what locks are being used, synchronization mechanism, garbage collection.
+Class Pointer is a memory reference of the object.
+So Mark Words take - 8 bytes
+Class Pointer (since it is a reference) - it can take 4 bytes/8bytes (we consider 4 bytes).
+
+### Exact Data 
+We just saw above the total size taken by the variables and their data types.
+
+### Padding
+Since CPU is optimized to read in chunks of 8 bytes padding allows us to support this optimization. If we consider the total size of the above object `student1`
+till now i.e. Header size + Exact field = 12 + 16 = 28. 
+
+Now 28 is not a multiple of 8 the closest multiple of 8 to 28 is 32, hence we pad 28 with 4 more bytes to make it 32 bytes. 
+
+So overall the `student1` object takes 32 bytes of memory.
+
+Another example if there is a class,
+```
+public class Person{
+	byte age;
+}
+```
+Header Size would be - 12 bytes
+Exact size - 1 byte for age
+Padding - 12 + 1 = 13, this not a multiple of 8 the next closest multiple is 16 hence we pad this object with 3 more bytes making it ***16 bytes***.
