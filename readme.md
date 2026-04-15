@@ -2101,3 +2101,68 @@ public class Person{
 Header Size would be - 12 bytes
 Exact size - 1 byte for age
 Padding - 12 + 1 = 13, this not a multiple of 8 the next closest multiple is 16 hence we pad this object with 3 more bytes making it ***16 bytes***.
+
+### Call by Value and Call by Reference in Java (Note: Java is only call by Value)
+```
+public class Main{
+	public static void main(String[] args){
+		int a = 3;
+		int b = 4;
+		
+		System.out.println(a, b); // 3, 4
+		
+		addTen(a, b);	
+		
+		System.out.println(a, b); // 3, 4
+	}
+	
+	public static void addTen(int a, int b){
+		a + 10;
+		b + 10;
+	} 
+}
+```
+In the above code the first print statement will print 4, 5
+Second print statement will also print 4, 5. The addTen method has no effect on variable a and b inside the main method because when we call addTen and pass
+a and b, addTen in its own call stack it will have its own a and b which will have values 3 and 4 so addition will be on these own variables of addTen a and b
+which are separate from a and b of the main method.
+
+Since Java is call by value, when we called addTen values of a and b were separately copied or picked up addTen or sent to addTen, addTen never referenced a and b
+of main method but values of a and b from main method were passed to the a and b of addTen.
+
+### What happens when objects of user defined classes are passed ?
+```
+class Random{
+	int a;
+	int b;
+	
+	public Random(int a, int b){
+		this.a = a;
+		this.b = b;
+	}
+	
+	public Random(Random r){
+		this.a = r.a;
+		this.b = r.b;
+	}
+}
+
+public class Main{
+	public static void main(String[] args){
+		Random num = new Random(3, 4);
+		
+		System.out.println(num.a, num.b); // 3, 4
+		
+		addTen(num);	
+		
+		System.out.println(num.a, num.b); // 13, 14
+	}
+	
+	public static void addTen(Random r){
+		r.a = r.a + 10;
+		r.b = r.b + 10;
+	} 
+}
+```
+This is still call by value, but the value this time is the address of num we are sending the address of num to addTen, and internally addTen will
+now be pointing to same object num in the heap and any changes done by addTen will be on a and b of the same object.
