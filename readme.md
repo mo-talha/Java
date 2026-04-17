@@ -2312,3 +2312,106 @@ Integer x = new Integer(10); // We know about the whole object creation phase an
 ```
 
 Also Wrapper classes help us to have custom methods and fields which can be handy when dealing with a certain data type, like Integer class has a property/field with which we can use the max integer value, like `Integer.MAX_VALUE`, it has a method to get a max number among 2 numbers like `Integer.max(1, 2);` etc 
+
+### Autoboxing and Unboxing
+```
+// Autoboxing
+int a = 10;
+Integer b = a;
+
+// Unboxing
+Integer a = 10;
+int b = a;
+```
+Here int a will be automatically converted to object of Integer internally by the compiler. The compiler will use the static method valueOf() of class Integer.
+`Integer.valueOf(10);` this automatic conversion of a primitive to a Wrapper type is called autoboxing.
+
+In unboxing int b will use the instance or object method of Integer a intValue() and it will get the primitive version 10. 
+`a.intValue();` this is a get method which returns the primitive value of the Wrapper object.
+
+Autoboxing works at 3 places:
+1. Assignments (we just saw this above)
+2. Method calls
+3. Arithmetic operations
+
+```
+public void printInteger(Integer x){
+	System.out.println(x);
+}
+
+int a = 10;
+printInteger(a); // here x would do x = Integer.valueOf(x) and then print it this is autoboxing.
+
+// Arithmetic Operations
+Integer a = 5;
+Integer b = 3;
+
+int sum = a + b; // here compiler will do sum = a.intValue() + b.intValue();
+```
+
+### NullPointerException in Unboxing
+```
+Integer a = null;
+int b = a;
+
+// Internally b will do a.intValue() but this will return null and in Java int can store 0 but it cannot store null hence a NullPointerException will be raised.
+```
+The Wrappers since they are objects can reference null but primitives cannot, so we must be careful because in this case of Unboxing we will not get any warning.
+
+### == operator vs equals()
+```
+int a = 4;
+int b = 4;
+
+System.out.println(a == b);
+
+Integer c = 200;
+Integer d = 200;
+
+System.out.println(c == d);
+
+System.out.println(c.equals(d));
+```
+
+== in case of primitives checks the actual values so it checks 4 == 4 and prints True. 
+== in case of objects checks for reference, is c and d both pointing to the same reference which in this case is false as both are separate Integer objects on heap because. Hence it will print false.
+
+The last line will print True. Because equals() method checks the actual values. So equals() for non primitives and == checks for their reference values.
+
+== checks the same thing in case of primitives as well but primitives are values themselves and in case of non primitives the real objects are on heap and variables stores references and references for objects in heap are different thats why it prints false.
+
+### Edge Case (Caching of Integers)
+Java caches commonly used integers from -127 to 128 so even if we do,
+```
+Integer a = 100;
+Integer b = 100;
+
+System.out.println(a == b); // This will print true
+```
+This will print true because Java internally creates objects of commonly used integers and there reference variables are stored in stack.
+
+Now we create a and b which are in the common range, then the constructor of Integer class will check in the memory and lets say it finds a variable h pointing towards 100 in the memory it will assign a = h and b = h. Now a and b are pointing to the same object and a and b have same references hence we get true as the output.
+
+200 was out of this range so new objects were created and we got false.
+
+So the Integer Wrapper class would look something like this,
+```
+public class Integer{
+	int value;
+	public Integer valueOf(int x){
+		//
+	}
+
+	public int intValue(Integer val){
+		return val.value;
+	}
+
+	public boolean equals(Integer a, Integer b){
+		if (a.intValue == b.intValue){
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+``` 
