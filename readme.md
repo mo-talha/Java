@@ -2259,3 +2259,31 @@ the same memory location for reference fields.
 
 Default behaviour of Object.clone() method is shallow copy.
 Primitive fields are copied, while non-primitives are shared.
+
+# Lecture - 18 (Coder Army) Autoboxing, Abstract classes and Pojos
+## Why only 1 public class per file ?
+```
+Main.java
+public class Main{
+	public static void main(String[] args){
+		// code here
+	}
+}
+
+class Person{
+	String name;
+}
+```
+
+In java we can have only one public class per file, we can also have multiple sub classes within a file but public file must always be only one, also the name of
+the public class must be same as that of the file name.
+This is because JVM can only access public classes from packages and if the class is public and main method is public it will easily access it.
+If there are multiple public classes then JVM will get confused from which public class it should call the main method. To avoid and keep things simple one public class and one public main method.
+
+Now JVM has access to only one public class and when the file is run it will easily pick the main method of the public class.
+
+### Why the public class name and file name must be same ?
+This is because when JVM runs main method, that it loads the file for example Main.java in the memory, and since the file name and class name are same it will simply use the file name Main (.) dot operator and will call the main method of the file `Main.main()`.
+
+That's why Java has the rule to keep file name and class name same so that it is easier for JVM to directly know the class name by just looking at the file name and it can call the main method easily.
+
