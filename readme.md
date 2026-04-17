@@ -2287,3 +2287,28 @@ This is because when JVM runs main method, that it loads the file for example Ma
 
 That's why Java has the rule to keep file name and class name same so that it is easier for JVM to directly know the class name by just looking at the file name and it can call the main method easily.
 
+## What are Wrapper classes ?
+```
+int     --> Integer
+long    --> Long
+float   --> Float
+double  --> Double
+boolean --> Boolean
+byte    --> Byte
+```
+In Java every primitve data type has a Wrapper class for itself. 
+A Wrapper class can also be use to store an integer and also the primitive type int, both help us store an integer type. But the necessity to have wrapper classes is,
+1. Collection Framework - Collections are designed to work with Wrapper classes.
+2. OOPs - Since Java is an Object oriented programming language it needs to have class substitutes of primitives.
+
+### Why do primitves exist then ?
+Primitives exist because of legacy, since Java was around at the time of C and C++ and these 2 languages had primitive data types in them, so Java to make it easier for the devs transition from C and C++ they also decided to keep primitives.
+
+And most important primitives are way faster compared to wrapper classes, because a primitive is initialized in the stack memory and a wrapper class object is initialized in the heap memory.
+
+```
+int x = 10 // Inside Stack Memory
+Integer x = new Integer(10); // We know about the whole object creation phase and then the object gets created in the heap and x stores the reference to the object.
+```
+
+Also Wrapper classes help us to have custom methods and fields which can be handy when dealing with a certain data type, like Integer class has a property/field with which we can use the max integer value, like `Integer.MAX_VALUE`, it has a method to get a max number among 2 numbers like `Integer.max(1, 2);` etc 
