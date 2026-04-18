@@ -2415,3 +2415,116 @@ public class Integer{
 	}
 }
 ``` 
+
+### Few important points on abstract classes
+1. Abstract classes cannot be instantiated.
+2. Can contain abstract methods (methods without implementation).
+3. Can also contain normal methods.
+4. Is meant to be extended.
+
+## Interview Questions on Abstract classes
+### 1. Can abstract classes have constructors ?
+Yes they can have constructors, because lets say there is an abstract class animal and it has a property String name any sub class extending this abstract class can use this property.
+ex:
+```
+public abstract class Animal{
+	String name;
+
+	public Animal(String name){
+		this.name = name;
+	}
+
+	public abstract void makeSound();
+}
+
+public class Dog extends Animal{
+	public Dog(String name){
+		super(name);
+	}
+
+	@override
+	public void makeSound(){
+		System.out.println(this.name+" is barking.")
+	}
+}
+
+public class Main{
+	public static void main(String[] args){
+		Dog dog = new Dog("Bruno");
+		dog.makeSound(); // This will print "Bruno is barking."
+	}
+}
+```
+
+### 2. Can abstract classes be final ?
+Keeping a class final means the class cannot be inherited, but abstract classes are meant to be inherited hence they cannot be final.
+
+### 3. Can abstract classes have static methods/variables ?
+Yes abstract classes can have static methods or variables as static methods and variables belong to class and not an instance, hence these static methods and variables can be accessed via class name.
+
+### 4. Can abstract classes have private methods ?
+Yes they can have private methods, but anything private is not accessible outside the class even for subclasses.
+
+### 5. Can abstract classes have final methods ? 
+Yes they can have final methods but they cannot have methods which are both final and private, because abstract method means the extending class must override the method but if an abstract method is final it cannot be overriden. 
+
+ex:
+```
+public abstract class Animal{
+	String name;
+
+	public Animal(String name){
+		this.name = name;
+	}
+
+	public final void makeSound(){
+		System.out.println(this.name+" is making sound");
+	}
+}
+
+public class Dog extends Animal{
+	public Dog(String name){
+		super(name);
+	}
+}
+
+public class Main{
+	public static void main(String[] args){
+		Dog dog = new Dog("Bruno");
+		dog.makeSound(); // This will print "Bruno is making sound."
+	}
+}
+```
+
+### 6. Can abstract classes have no abstract method ?
+Yes, but we might be thinking then whats the use of having an abstract class if there are no abstract method to answer this we can say that we don't want anyone to create objects of the abstract class Animal, the class must only be used for inheritance and another answer could be I will also be providing default implementation to all the methods in the abstract class Animal.
+
+## POJO Classes (Plain Old Java Objects)
+A simple class with only attributes, getters and setters is called a POJO. These classes do not require any framework etc instead they are built with only plain Java. POJOs are also called as model/entity classes as they are used to represent an SQL table.
+
+```
+class Student{
+	int rollNo;
+	String name;
+
+	public void setName(String name){
+		this.name = name;
+	}
+
+	public void setRollNo(int rollNo){
+		this.rollNo = rollNo;
+	}
+
+	public String getName(){
+		return this.name;
+	}
+
+	public int getRollNo(){
+		return this.rollNo;
+	}
+}
+```
+
+The above is a POJO class.
+
+Pojo classes are further classified as ***Anemic Model*** and ***Rich Domain Model***. The above class is Anemic Model because it does not have any business logic in it, but few classes will have methods that represent some business logic such POJOs are call Rich Domain Model.
