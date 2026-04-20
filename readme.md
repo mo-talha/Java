@@ -128,10 +128,72 @@ Also incase of long numbers, we have to mention l, ex: `long number = 4654l;`
 This is because if the number falls in the integer range then the compiler will not throw an error, but once the long number crosses the integer range then we have to attach l to the number.
 
 ## Decimal numbers - similarly we store decimal numbers using the following data types:
-1. float
-When using float we need to use f with the number ex: `float no = 4.66f;` because the compiler will take the number as double if not mentioned with f.
+1. float (range - 32 bits)
+When using float we need to use f with the number ex: `float no = 4.66f;` because the compiler will take the number as double if not mentioned with f. float is single precision can hold almost 7 digits.
 
-2. double 
+2. double (range - 64 bits)
+The default data type inside many methods of the Math class in Java and the standard practice to represent decimals is using double data type. The double data type has higher precision than float meaning double can store more digits compared to flaot. double can hold almost 15 digits.
+
+### What does float can hold 7 digits mean ?
+```
+float f = 1234567.89f;
+System.out.println(f);  // 1234567.9 (lost the 8, rounded the 9)
+// Only first 7 digits are reliable: 1234567
+```
+### Few more examples to prove the precision of float and double
+```
+// FLOAT (32-bit) - loses precision after 7 digits
+float floatNum = 123456789.123456789f;
+System.out.println("Float:  " + floatNum);  
+// Output: 1.23456792E8 (only 123456792 - lost precision!)
+
+// DOUBLE (64-bit) - keeps precision up to 15 digits
+double doubleNum = 123456789.123456789;
+System.out.println("Double: " + doubleNum);  
+// Output: 1.2345678912345679E8 (much more accurate)
+
+// BIGDECIMAL - exact precision
+BigDecimal bigNum = new BigDecimal("123456789.123456789");
+System.out.println("BigDecimal: " + bigNum);  
+// Output: 123456789.123456789 (EXACT!)
+```
+
+### Now why do we have to know this (about precision of float, double)?
+Because when we are building something we might want to hold on to data even after decimal points, in such cases it is extremely important to know about these differences.
+
+1. We use double when performance matters but precision is still important, for most scientific calculations double is sufficient.
+2. float when memory is extremely limited.
+3. BigDecimal when working with money, we need exact decimal calculations like tax calculations, currency, financial transactions etc we can also have control over rounding rules.
+
+### Comparing decimal numbers the dangerous trap
+```
+double a = 0.1 + 0.2;
+double b = 0.3;
+
+if (x == y){
+	System.out.println("Equal");
+} else {
+	System.out.println("Not Equal");
+}
+```
+In the above case a and b look equal but "Not Equal" will be printed because we know that 0.1 + 0.2 actually stores few more decimal values after 3, 0.3000014.
+
+The correct way with double is to use an epsilon
+```
+double epsilon = 0.0000001;
+if (Math.abs(x - y) < epsilon) {
+    System.out.println("Equal within tolerance");
+}
+```
+
+***The Best way is to use BigDecimal***
+```
+BigDecimal bx = new BigDecimal("0.1").add(new BigDecimal("0.2"));
+BigDecimal by = new BigDecimal("0.3");
+if (bx.compareTo(by) == 0) {
+    System.out.println("Equal");  // This prints!
+}
+```
 
 ## Characters 
 ### char
