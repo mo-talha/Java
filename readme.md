@@ -195,6 +195,14 @@ if (bx.compareTo(by) == 0) {
 }
 ```
 
+### Why does the error happen with float and double ?
+Representing smaller decimal numbers like 0.1, 0.2 etc in the computers language binary is difficult, it leads to an infinite fraction, to avoid this the computer cuts of this infinite fraction and also the data types float and double cannot store every fraction as a binary they only have a set number of bits to store the binary representation of a decimal number, to avoid this the data types or the computer round off the decimal places.
+ex: 0.1 + 0.3 = 0.300000000004, the 4 at the last is rounded off by the double type, this creates rounding errors and it can cost us in production because we think that 0.1 + 0.3 = 0.3 but internaly there is a 4 at the end this causes miscalculations.
+
+The only solution to this problem is using BigDecimal.
+
+### How does BigDecimal help in avoiding rounding off errors ?
+
 ## Characters 
 ### char
 It stores a single letter of any language, single special characters like @,! etc and can store a single value like 4, 2, 1 etc and have to enclose the character in single quotes ex: ‘@’, ‘#’, ‘1’, ‘a’.
