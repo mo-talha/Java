@@ -2598,3 +2598,16 @@ class Student{
 The above is a POJO class.
 
 Pojo classes are further classified as ***Anemic Model*** and ***Rich Domain Model***. The above class is Anemic Model because it does not have any business logic in it, but few classes will have methods that represent some business logic such POJOs are call Rich Domain Model.
+
+# Lecture - 20 (Coder Army) Java I/O (Input Streams, System.in, Scanner vs BufferedReader)
+```
+public class Main{
+	public static void main(String[] args){
+		System.out.println("Hello World!");
+	}
+}
+```
+Here `System` is a class we can say that by just looking at it because it starts with a capital letter.\
+`out` is a reference variable referencing an object of class PrintStream.\
+`println()` is a method of the PrintStream class which takes an input string and has the logic to print the string onto the console.\
+
