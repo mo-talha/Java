@@ -2607,7 +2607,17 @@ public class Main{
 	}
 }
 ```
-Here `System` is a class we can say that by just looking at it because it starts with a capital letter.\
-`out` is a reference variable referencing an object of class PrintStream.\
-`println()` is a method of the PrintStream class which takes an input string and has the logic to print the string onto the console.\
+Here `System` is a class we can say that by just looking at it because it starts with a capital letter.\. 
+
+`out` is a reference variable referencing an object of class ***PrintStream***. We can say that it is referencing to an object because out starts with small letter. Also since out is accessible using the dot operator via the System class we can say that out is a static variable.\. 
+
+`println()` is a method of the PrintStream class which takes an input string and has the logic to print the string onto the console.\. 
+
+There is another static variable inside the System class which can be used to print on console and has the same methods like print, println and printf, this variable is called ***err***, it is also an object of PrintStream class.
+
+### Why are there 2 objects of same class PrintStream ?
+out is used to print success messages.  
+err is used to print errors.  
+It also creates separation of concerns for someone reading the code, one can clearly differentiate looking at System.out.println() that this a message and System.err.println() is an error message.  
+
 
