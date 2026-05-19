@@ -2613,11 +2613,204 @@ Here `System` is a class we can say that by just looking at it because it starts
 
 `println()` is a method of the PrintStream class which takes an input string and has the logic to print the string onto the console.\. 
 
-There is another static variable inside the System class which can be used to print on console and has the same methods like print, println and printf, this variable is called ***err***, it is also an object of PrintStream class.
+There is also a static method inside the System class which can be used to print on console and has the same methods like print, println and printf, this variable is called ***err***, it is also an object of PrintStream class.
 
 ### Why are there 2 objects of same class PrintStream ?
 out is used to print success messages.  
 err is used to print errors.  
-It also creates separation of concerns for someone reading the code, one can clearly differentiate looking at System.out.println() that this a message and System.err.println() is an error message.  
+It also creates separation of concerns for someone reading the code, one can clearly differentiate looking at System.out.println() that this a message and System.err.println() is an error message.
 
+So the main abstract classes are ***OutputStream*** and ***InputStream***, the PrintStream class extends the OutputStream.
+```
+OutputStream (abstract class)
+	|-FileOutputStream
+	|-ByteArrayOutputStream
+	|-BufferedOutputStream
+	|-PrintStream
+```
+The OutputStream class has the abstract method write(), which the extending classes implement.
 
+so the variables err, out are reference variables to the objects of class PrintStream, which has a method println(). PrintStream class extends the FileOutputStream which in turn extends the OutputStream class. 
+The PrintStream class has the logic to print on the console.
+
+## Taking input in Java
+```
+InputStream (abstract class)
+	|-FileInputStream
+	|-ByteArrayInputStream
+	|-BufferedInputStream
+	|-DataInputStream
+```
+In Java data is handled in the form of a stream, meaning you can think of a pipe or channel, in which the data flows in form of bytes, hence the name InputStream.
+
+The InputStream class has an abstract method called read(), the extending classes will implement their version of read(), meaning FileInputStream will implement read() to read a file, similarly others.
+
+InputStream is an abstract class in Java, this class is extended by other classes like FileInputStream, to take a file as an input, similarly ByteArrayInputStream takes data in the form of Arrays containing data as bytes.
+
+Now the System class has another static variable call in, it is used to take input just like out was used to output the data. It is accessed by doing `System.in`, now it can take a File as an input etc but by default it is used to take input from the keyboard.
+
+The `in` variable is of type BufferedInputStream or we can also say it is the type of InputStream.
+
+W.K.T. Java takes the data in form of bytes, hence if we type A on the keyboard, it gets the ASCII value of A, converts the value to binary and then the read() method of in, reads it as a byte from the stream.
+
+ex:
+```
+public class Main{
+	public static void main(String[] args){
+		int x = System.in.read();
+		System.out.println(x);
+	}
+}
+```
+Now, the read method returns an int type, it reads the byte and returns an int, it reads A as binary and returns the ASCII value, so if A's ASCII is 65, its binary is for example 1011011, it returns the ASCII again.
+
+### What happens when we type "Talha" ?
+in method stores the bytes in a buffer, buffer is nothing but an array of bytes. so it stores the binary of each character ex: `[[T], [a], [l], [h], [a], [\n]]`
+
+Now, read only reads a single byte, hence we will need to run a loop over the stream, append all characters until we encounter the byte of newline.
+
+ex:
+```
+public class Main{
+	public static void main(String[] args){
+		int x = System.in.read();
+		StringBuilder s = new StringBuilder();
+		while (x != -1 && x != '\n'){
+			s.append((char) x);
+			x = System.in.read(); // reading the next byte
+		}
+		System.out.println(s);
+	}
+}
+```
+This is a verbose code just to read an input. so Java came up with the Reader class to make this simple.
+
+## Reader class
+This is an abstract class, ***this class helps us in avoiding the problem where we had to read one byte at a time from a buffer using loops***.
+
+The interesting part of this class is, it directly reads a stream of characters, there is no need of typecasting to char because it does not read stream of bytes.
+ex: 
+```
+stream of characters
+---------
+t a l h a
+---------
+```
+
+Heirarchy of the Reader class
+```
+Reader
+	|- BufferedReader
+	|- InputStreamReader
+	|- FileReader
+```
+
+The BufferedReader and InputStreamReader are used to take and read input from the console, FileReader is used to read from a file.
+
+### The problem with System.in.read() or InputStream
+We used to give an input and every input was stored in the OS buffer.
+Now to read the input, we were making calls to the OS buffer using a loop and the read() method, now if there were a 1000 characters then this would be a 1000 calls to the OS buffer, which is not good.
+
+The flow is:
+```
+Keyboard --> OS Buffer --> Program
+```
+
+### How does BufferedReader solve this issue of reading from the OS buffer ?
+BufferedReader says that I will create my own buffer in the program memory, read a chunk of data from the OS buffer and put it into my local buffer, this way it avoids making repeated calls to the OS buffer.
+
+Keyboard --> OS buffer --> Java buffer --> Program
+
+This improves the performance and BufferedReader is way more optimized than InputStream.
+```
+BufferedReader
+	|- Read chunk of characters from the OS buffer
+	|- Store it in the program memory
+	|- Give them to the program when required 
+```
+Now, w.k.t System.in, the in is a type of InputStream, InputStream and BufferedReader deal with different types of streams one deals with a stream of bytes and other deals with a stream of characters, they both are not compatible with each other.
+
+But the default to handle inputs is System.in i.e. InputStream, this cannot be changed, hence to make these two compatible with each other InputStreamReader class comes into the picture.
+
+This class takes the responsibility of converting the stream of bytes from the InputStream to stream of characters, so that BufferedReader can read it as a chunk.
+
+```
+InputStreamReader
+	|- byte stream -> character stream
+```
+
+```
+public class Main{
+	public static void main(String[] args){
+		InputStreamReader isr = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader(isr);
+
+		String name = br.readline();
+		System.out.println(name);
+	}
+}
+```
+Since, the default is InputStream, and InputStreamReader takes the responsibility of converting the byte buffer to character buffer, we pass the object of InputStream System.in to the InputStreamReader constructor.
+
+Then we initialize the BufferedReader, BufferedReader's responsibility is to create a Java buffer, it does so by reading the character buffer by InputStreamReader, hence we pass this to BufferedReader's consctructor.
+
+Then we use the readline() method of the BufferedReader class, which loops over the Java buffer of characters and builds a string, which is stored in the name variable.
+
+### Limitations of BufferedReader
+- BufferedReader can only read a stream of characters, and it is meant to deal with strings only.
+
+- The code is still complicated to read an input, we create a System.in object --> we pass this object to the InputStreamReader to convert stream of bytes to stream of characters --> we pass ISR to BufferedReader to create a java buffer. 
+
+- Finally use readline() to only read a string.
+
+Now if we wanted to read an integer, lets say 25, 25 would be returned as a string by the readline method, we will have to convert this to an integer using Integer.parseInt("25"), this would give us the integer 25.
+
+Looking at all this Java introduced the Scanner class.
+The Reader class and InputStream class all come under java.io package.
+
+## Scanner class
+Scanner class helps us by making,
+- The code to take an input simple.
+- No type casting needed can read any type of input like int, double, float, String, Character etc
+
+The Scanner class does not come under the java.io package, it comes under java.util, meaning Scanner is a utility function it has nothing to do with input and output.
+
+Scanner is a wrapper class over the abstract classes InputStream and Reader, it is not a part of the heirarchy of either of these classes.
+
+Now since we are dealing with taking input from the keyboard w.k.t the default class which helps us to read from keyboard is ***InputStream*** hence Scanner also works with this and we need to pass the object of InputStream to scanner.
+
+If the input would have been a file then we would do, `Scanner scanner = new Scanner(new File("location of the file"));`
+
+ex:
+```
+public class Main{
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(scanner.nextLine());
+    }
+}
+```
+nextLine() is a method in the scanner class which reads the full output. next() is a method which only reads the first part.
+
+similarly we have methods to read Integer, Boolean, Double, Float, BigDecimal etc
+like, scanner.nextIneger(), scanner.nextDouble() etc
+
+### How does Scanner work ?
+- It separates a given String as tokens, it uses space as a delimeter meaning,
+"Hi My Name is Talha", it uses space as a delimeter and separates the strings as Hi, My, Name, is, Talha
+
+- It deals with type conversions
+
+- It also deals with regular expressions or regex.
+
+### Note: Which is faster Scanner or BufferedReader
+BufferedReader is faster because it just deals with a buffer or stream of characters, whereas Scanner deals with tokenization, regex and type conversions.
+
+If performance is key then we go with BufferedReader or else we go with Scanner.
+
+### Summary of Lecture-20
+1. OutputStream (System.out, System.err)
+2. InputStream (System.in)
+3. Reader (BufferedReader, InputStreamReader)
+4. OS Buffer vs Java Buffer
+5. Scanner
