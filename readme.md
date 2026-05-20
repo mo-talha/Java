@@ -2814,3 +2814,148 @@ If performance is key then we go with BufferedReader or else we go with Scanner.
 3. Reader (BufferedReader, InputStreamReader)
 4. OS Buffer vs Java Buffer
 5. Scanner
+
+# Lecture - 21 (Coder Army) Immutable Class in Java
+A class is called immutable if any of its properties or methods cannot be changed. W.K.T a class, property or a method marked with final keyword cannot be modified.
+
+ex:
+```
+public class Student{
+	private final String studentName;
+	private final Integer age;
+	private final String collegeName;
+
+	public Student(String studentName, Integer age, String collegeName){
+		this.studentName = studentName;
+		this.age = age;
+		this.collegeName = collegeName;
+	}
+
+	public String getStudentName(){
+		return this.studentName;
+	}
+
+	public Integer getAge(){
+		return this.age;
+	}
+
+	public String getCollegeName(){
+		return this.collegeName;
+	}
+}
+```
+In the above class
+- The fields are private and final, so it is not possible to access directly and make changes.
+- There no setters to set the values.
+- This can be called an Immutable class.
+- The Student class cannot be extended by a subclass as the class is final, this means no subclass can change its methods by overriding.
+
+But, w.k.t College on its own can be a class because it has its name, address etc, so what happens if College is a class and we create a separate object of college and Student stores the reference to this College object.
+
+ex:
+```
+public class College{
+	String collegeName;
+	String address;
+
+	public College(String collegeName, String address){
+		this.collegeName = collegeName;
+		this.address = address;
+	}
+}
+
+public class Student{
+	private final String studentName;
+	private final Integer age;
+	private final College college;
+
+	public Student(String studentName, Integer age, College college){
+		this.studentName = studentName;
+		this.age = age;
+		this.college = college;
+	}
+
+	public String getStudentName(){
+		return this.studentName;
+	}
+
+	public Integer getAge(){
+		return this.age;
+	}
+
+	public String getCollegeName(){
+		return this.collegeName;
+	}
+}
+
+public class Main{
+	public static void main(String[] args){
+		College c = new College("IIT B", "Bombay");
+		Student s = new Student("Talha", 26, c);
+
+		c.collegeName = "IIT G";
+	}
+}
+```
+
+In the above example we can see that even though the Student class is immutable but college can be modified, because the College class is not Immutable, so in this case the Student class is still mutable.
+
+This is also called a shallow copy, because the college variable in the Student class has the reference to the College object c and it is not a separate object.
+
+2 ways to make Student Immutable:
+1. Make the College class Immutable, i.e. make it final, its properties and methods.
+2. Create defensive copies of College inside the Student.
+
+ex: Creating Defensive Copies
+```
+public class College{
+	String collegeName;
+	String address;
+
+	public College(String collegeName, String address){
+		this.collegeName = collegeName;
+		this.address = address;
+	}
+}
+
+public class Student{
+	private final String studentName;
+	private final Integer age;
+	private final College college;
+
+	public Student(String studentName, Integer age, College college){
+		this.studentName = studentName;
+		this.age = age;
+		this.college = new College(college.name, college.address);
+	}
+
+	public String getStudentName(){
+		return this.studentName;
+	}
+
+	public Integer getAge(){
+		return this.age;
+	}
+
+	public String getCollegeName(){
+		return new College(college.name, college.address);
+	}
+}
+
+public class Main{
+	public static void main(String[] args){
+		College c = new College("IIT B", "Bombay");
+		Student s = new Student("Talha", 26, c);
+
+		c.collegeName = "IIT G";
+
+		s.getCollege().name = "IIT K";
+	}
+}
+```
+Here, c.collegeName = "IIT G", will not affect the college in the Student object s because Student creates a separate object of College, rather than having reference of c. So any changes on c won't have an affect because Student is pointing to a different College object in heap.
+
+Similarly, the getCollege() method cannot be used to modify the college in Student, because it does not return the same college instance, instead it creates a new one and returns it, so the changes will be on the new college object and not on the object to which the instance is pointing.
+
+This is called Defensive copy, where the Student class keeps its own object safe by giving out new copies instead of handing out its own.
+
